@@ -406,7 +406,10 @@ describe('usePaths order assertions', () => {
     await result.current.commitPath('mods', 'C:\\mods')
 
     await waitFor(() => {
-      expect(useModsMock.__order).toEqual(['invalidateModsHydration', 'dispatchEvent:mods:revalidate'])
+      expect(useModsMock.__order).toEqual([
+        'invalidateModsHydration',
+        'dispatchEvent:mods:revalidate'
+      ])
     })
   })
 
@@ -433,7 +436,10 @@ describe('usePaths order assertions', () => {
     await result.current.redetect()
 
     await waitFor(() => {
-      expect(useModsMock.__order).toEqual(['invalidateModsHydration', 'dispatchEvent:mods:revalidate'])
+      expect(useModsMock.__order).toEqual([
+        'invalidateModsHydration',
+        'dispatchEvent:mods:revalidate'
+      ])
     })
   })
 
@@ -454,7 +460,10 @@ describe('usePaths order assertions', () => {
     result.current.resetPath('mods')
 
     await waitFor(() => {
-      expect(useModsMock.__order).toEqual(['invalidateModsHydration', 'dispatchEvent:mods:revalidate'])
+      expect(useModsMock.__order).toEqual([
+        'invalidateModsHydration',
+        'dispatchEvent:mods:revalidate'
+      ])
     })
   })
 

@@ -112,10 +112,9 @@ export default function PathsTab(): React.JSX.Element {
               onReset={() => resetPath('profile')}
             />
             <p className="text-xs leading-relaxed text-muted-foreground">
-              Paths are loaded from saved settings. Automatic detection only runs when you
-              click auto detect, and it overwrites the saved values. Edited text saves when
-              you press Enter or leave the field; an invalid Mods or Profile folder is
-              rejected.
+              Paths are loaded from saved settings. Automatic detection only runs when you click
+              auto detect, and it overwrites the saved values. Edited text saves when you press
+              Enter or leave the field; an invalid Mods or Profile folder is rejected.
             </p>
           </div>
         </CardContent>

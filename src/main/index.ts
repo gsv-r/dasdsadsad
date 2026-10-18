@@ -4,9 +4,25 @@ import { join } from 'path'
 import { pathToFileURL } from 'url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
-import { getDetectedPaths, getResolvedGamePath, getResolvedModsPath, getResolvedProfilePath, getResolvedSteamPath, isValidManualModsValue, isValidManualProfileValue, resolveSteamExecutable, sameModsPath } from './functions/paths'
+import {
+  getDetectedPaths,
+  getResolvedGamePath,
+  getResolvedModsPath,
+  getResolvedProfilePath,
+  getResolvedSteamPath,
+  isValidManualModsValue,
+  isValidManualProfileValue,
+  resolveSteamExecutable,
+  sameModsPath
+} from './functions/paths'
 import { resolveLocalFilePath } from './functions/localFile'
-import { getActiveProfile, listProfiles, listProfilesIn, saveProfileInfo, updateActiveProfileView } from './functions/profiles'
+import {
+  getActiveProfile,
+  listProfiles,
+  listProfilesIn,
+  saveProfileInfo,
+  updateActiveProfileView
+} from './functions/profiles'
 import { validateApp } from './functions/validate'
 import { store } from './store'
 import {
@@ -61,7 +77,15 @@ import {
   practiceSetSuitPaintArgs,
   practiceSetTrackLayoutArgs
 } from '../types/practiceArgs'
-import { registerUpdater, checkForUpdates, downloadUpdate, installUpdate, getAppVersion, getUpdaterStatus, stopUpdaterChecks } from './functions/updater'
+import {
+  registerUpdater,
+  checkForUpdates,
+  downloadUpdate,
+  installUpdate,
+  getAppVersion,
+  getUpdaterStatus,
+  stopUpdaterChecks
+} from './functions/updater'
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'local-file', privileges: { standard: true, secure: true, supportFetchAPI: true } }
@@ -72,7 +96,11 @@ protocol.registerSchemesAsPrivileged([
 // resolvers (manual `paths.*` ?? last auto-detection `pathsAuto.*`),
 // the exact same source the Launch validation checks, so validation
 // and launch can never disagree. Null effective means "not configured".
-function getStoredPaths(): { steamPath: string | null; gamePath: string | null; modsPath: string | null } {
+function getStoredPaths(): {
+  steamPath: string | null
+  gamePath: string | null
+  modsPath: string | null
+} {
   return {
     steamPath: resolveSteamExecutable(getResolvedSteamPath()),
     gamePath: getResolvedGamePath(),

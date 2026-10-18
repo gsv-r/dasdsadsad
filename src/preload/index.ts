@@ -5,7 +5,13 @@ import type { StoreSetResult } from '../types/store'
 import type { WindowStateMessage } from '../types/ipc'
 import { isSendChannel } from '../types/ipc'
 import type { SendChannel } from '../types/ipc'
-import type { PlayerSetup, PracticeGuardResult, SetupSaveResult, SetupDeleteResult, SetupSelectResult } from '../types/setups'
+import type {
+  PlayerSetup,
+  PracticeGuardResult,
+  SetupSaveResult,
+  SetupDeleteResult,
+  SetupSelectResult
+} from '../types/setups'
 
 const electron = {
   ipcRenderer: {
@@ -46,10 +52,8 @@ const setups = {
     ipcRenderer.invoke('setups:create', data),
   update: (id: string, data: Partial<Omit<PlayerSetup, 'id'>>): Promise<SetupSaveResult> =>
     ipcRenderer.invoke('setups:update', id, data),
-  delete: (id: string): Promise<SetupDeleteResult> =>
-    ipcRenderer.invoke('setups:delete', id),
-  select: (id: string | null): Promise<SetupSelectResult> =>
-    ipcRenderer.invoke('setups:select', id)
+  delete: (id: string): Promise<SetupDeleteResult> => ipcRenderer.invoke('setups:delete', id),
+  select: (id: string | null): Promise<SetupSelectResult> => ipcRenderer.invoke('setups:select', id)
 }
 
 const mods = {

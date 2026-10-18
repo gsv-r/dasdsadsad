@@ -2,7 +2,13 @@ import fs from 'fs/promises'
 import path from 'path'
 import * as z from 'zod'
 import { getResolvedModsPath } from './paths'
-import { prepareBikes, prepareHelmets, prepareRiders, prepareRidingStyles, prepareTracks } from './prepare'
+import {
+  prepareBikes,
+  prepareHelmets,
+  prepareRiders,
+  prepareRidingStyles,
+  prepareTracks
+} from './prepare'
 import { subdirForType } from './mods'
 import { PREVIEW_IMAGE_FILENAMES, PAINT_FILE_EXTENSION, METADATA_FILENAME } from '../constants'
 import type {
@@ -63,9 +69,7 @@ function reportInvalidMetadata(
   if (parsed.success) return
   reportedMetadataClasses.add(modClass)
   const folder = path.basename(dir)
-  const at = parsed.error.issues
-    .map((issue) => issue.path.join('.'))
-    .find((part) => part !== '')
+  const at = parsed.error.issues.map((issue) => issue.path.join('.')).find((part) => part !== '')
   if (at === undefined) {
     console.error(`Invalid metadata.json in ${modClass} mod "${folder}". Loading it unchanged.`)
   } else {
@@ -224,7 +228,9 @@ async function enrichRidingStyleDir(dir: string): Promise<RidingStyle | null> {
 }
 
 export function scanBikes(): Promise<Bike[] | false> {
-  return scanDir('bikes', prepareBikes, (dir) => withPaints<BikeMetadata>(dir, 'bike', bikeMetadataSchema))
+  return scanDir('bikes', prepareBikes, (dir) =>
+    withPaints<BikeMetadata>(dir, 'bike', bikeMetadataSchema)
+  )
 }
 
 export function scanTracks(): Promise<Track[] | false> {

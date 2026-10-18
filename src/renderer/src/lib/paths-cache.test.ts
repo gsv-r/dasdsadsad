@@ -92,7 +92,12 @@ describe('paths-cache', () => {
       modsPath: null,
       profilePath: 'C:\\profiles'
     })
-    writeCachedDetected({ steamPath: 'C:\\s', gamePath: null, modsPath: 'C:\\m', profilePath: null })
+    writeCachedDetected({
+      steamPath: 'C:\\s',
+      gamePath: null,
+      modsPath: 'C:\\m',
+      profilePath: null
+    })
     expect(store.get('pathsAuto.steam')).toBe('C:\\s')
     clearCachedPaths()
     expect(readCachedOverrides()).toEqual({ steam: null, game: null, mods: null, profile: null })

@@ -2,7 +2,11 @@ import { useCallback, useMemo, useState } from 'react'
 import type { PropsWithChildren } from 'react'
 
 import MessageModal from './message-modal'
-import { MessageModalContext, type MessageAction, type MessagePayload } from './message-modal-context'
+import {
+  MessageModalContext,
+  type MessageAction,
+  type MessagePayload
+} from './message-modal-context'
 
 export function MessageModalProvider({ children }: PropsWithChildren): React.JSX.Element {
   const [current, setCurrent] = useState<MessagePayload | null>(null)

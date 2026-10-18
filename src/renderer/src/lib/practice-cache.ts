@@ -91,7 +91,9 @@ export function readBikeSnapshot(): CachedBikeSnapshot | null {
 
 export function readTrackSnapshot(): CachedTrackSnapshot | null {
   return readSnapshot<CachedTrackSnapshot>('practice.track.snapshot', (parsed) => ({
-    layouts: Array.isArray(parsed.layouts) ? parsed.layouts.filter((l) => typeof l === 'string') : []
+    layouts: Array.isArray(parsed.layouts)
+      ? parsed.layouts.filter((l) => typeof l === 'string')
+      : []
   }))
 }
 

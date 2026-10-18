@@ -126,7 +126,9 @@ describe('practice weather launch gate characterization', () => {
     for (const field of Object.keys(fields)) {
       for (const value of probes) {
         const candidate = { ...VALID_SETTINGS, [field]: value }
-        expect(weatherSettingsSchema.safeParse(candidate).success).toBe(oldWouldFlag(candidate) === false)
+        expect(weatherSettingsSchema.safeParse(candidate).success).toBe(
+          oldWouldFlag(candidate) === false
+        )
       }
     }
     expect(weatherSettingsSchema.safeParse(VALID_SETTINGS).success).toBe(true)
@@ -223,11 +225,11 @@ describe('practice weather launch gate characterization', () => {
 
     setPractice({ ...VALID_SETTINGS }, '', '')
     const clean = validateApp()
-    expect(
-      clean.issues.filter((issue) => issue.code === 'PRACTICE_SETTINGS_INVALID')
-    ).toEqual([])
+    expect(clean.issues.filter((issue) => issue.code === 'PRACTICE_SETTINGS_INVALID')).toEqual([])
     expect(clean.issues.map((issue) => issue.code)).toEqual(
-      flagged.issues.map((issue) => issue.code).filter((code) => code !== 'PRACTICE_SETTINGS_INVALID')
+      flagged.issues
+        .map((issue) => issue.code)
+        .filter((code) => code !== 'PRACTICE_SETTINGS_INVALID')
     )
   })
 })

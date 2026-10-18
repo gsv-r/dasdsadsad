@@ -24,8 +24,7 @@ vi.mock('electron', () => ({
 
 function electronApi(): { ipcRenderer: { send: (channel: string, ...args: unknown[]) => void } } {
   const api = preloadState.exposed.get('electron') as
-    | { ipcRenderer: { send: (channel: string, ...args: unknown[]) => void } }
-    | undefined
+    { ipcRenderer: { send: (channel: string, ...args: unknown[]) => void } } | undefined
   if (!api) throw new Error('electron bridge was not exposed')
   return api
 }
@@ -88,9 +87,11 @@ describe('window-control channels and window-state bridge', () => {
     const api = preloadState.exposed.get('api') as { isMaximized: unknown }
     expect(typeof api.isMaximized).toBe('function')
 
-    const windowState = preloadState.exposed.get('windowState') as {
-      onChange: (callback: (message: unknown) => void) => () => void
-    } | undefined
+    const windowState = preloadState.exposed.get('windowState') as
+      | {
+          onChange: (callback: (message: unknown) => void) => () => void
+        }
+      | undefined
     expect(typeof windowState?.onChange).toBe('function')
     const callback = vi.fn()
     vi.mocked(ipcRenderer.on).mockClear()

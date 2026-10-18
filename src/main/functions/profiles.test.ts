@@ -25,7 +25,8 @@ async function makeProfilesTree(
   for (const [folder, ini] of Object.entries(entries)) {
     const folderPath = path.join(dir, folder)
     await fs.promises.mkdir(folderPath, { recursive: true })
-    if (ini !== null) await fs.promises.writeFile(path.join(folderPath, 'profile.ini'), ini, 'utf-8')
+    if (ini !== null)
+      await fs.promises.writeFile(path.join(folderPath, 'profile.ini'), ini, 'utf-8')
   }
   return {
     dir,
@@ -58,9 +59,7 @@ describe('parseProfileInfo', () => {
 
   it('ignores other sections and matches keys case-insensitively', async () => {
     const { parseProfileInfo } = await import('./profiles.js')
-    const parsed = parseProfileInfo(
-      '[gfx]\nname = Wrong\n[INFO]\nNAME = Rider\nRACE_NUMBER = 7\n'
-    )
+    const parsed = parseProfileInfo('[gfx]\nname = Wrong\n[INFO]\nNAME = Rider\nRACE_NUMBER = 7\n')
     expect(parsed).toEqual({ name: 'Rider', raceNumber: '7' })
   })
 
@@ -149,7 +148,9 @@ describe('getResolvedProfilePath', () => {
     const valid = await makeProfilesTree({
       'Unnamed Profile': '[info]\nname = Unnamed Profile\n'
     })
-    const invalidDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'knee-down-profile-invalid-'))
+    const invalidDir = await fs.promises.mkdtemp(
+      path.join(os.tmpdir(), 'knee-down-profile-invalid-')
+    )
     const prevManual = store.get('paths.profile')
     const prevAuto = store.get('pathsAuto.profile')
     try {
@@ -271,9 +272,9 @@ describe('updateGlobalIniContent', () => {
 
   it('keeps lastprofile before nickname when the pair is inverted', async () => {
     const { updateGlobalIniContent } = await import('./profiles.js')
-    expect(updateGlobalIniContent('[profile]\nnickname = Old\nlastprofile = Old\n', 'New', 'New')).toBe(
-      '[profile]\nlastprofile=New\nnickname=New\n'
-    )
+    expect(
+      updateGlobalIniContent('[profile]\nnickname = Old\nlastprofile = Old\n', 'New', 'New')
+    ).toBe('[profile]\nlastprofile=New\nnickname=New\n')
   })
 
   it('creates a missing profile section', async () => {
@@ -465,9 +466,9 @@ describe('saveProfileInfo', () => {
         ok: false,
         reason: 'name-taken'
       })
-      expect(
-        await fs.promises.readFile(path.join(tree.dir, 'Taken', 'profile.ini'), 'utf-8')
-      ).toBe(beforeTaken)
+      expect(await fs.promises.readFile(path.join(tree.dir, 'Taken', 'profile.ini'), 'utf-8')).toBe(
+        beforeTaken
+      )
       expect(await fs.promises.readFile(path.join(tree.dir, 'Other', 'profile.ini'), 'utf-8')).toBe(
         beforeOther
       )

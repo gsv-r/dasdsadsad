@@ -133,7 +133,8 @@ export default function SetupsCard(): React.JSX.Element {
   // Handle editing an existing setup
   const handleEdit = useCallback(
     (setup: PlayerSetup) => {
-      if (!canOpenSetupEditor(pathValues.mods, modsLoaded, modsValid, modsReady, showMessage)) return
+      if (!canOpenSetupEditor(pathValues.mods, modsLoaded, modsValid, modsReady, showMessage))
+        return
       setEditorData({
         name: setup.name,
         bike_id: setup.bike_id,
@@ -282,15 +283,18 @@ export default function SetupsCard(): React.JSX.Element {
             }
           >
             {setups.map((setup) => (
-              <Card key={setup.id} className="h-[var(--setup-row-h)] shrink-0 border-dashed border-border py-2 overflow-hidden">
+              <Card
+                key={setup.id}
+                className="h-[var(--setup-row-h)] shrink-0 border-dashed border-border py-2 overflow-hidden"
+              >
                 <CardContent className="flex flex-row items-center justify-between gap-2 px-2">
                   <div className="flex flex-col gap-1 min-w-0">
                     <p className="text-sm font-medium tracking-wide uppercase truncate">
                       {setup.name}
                     </p>
                     <p className="truncate text-[10px] leading-relaxed text-muted-foreground select-text uppercase">
-                      Bike: {setup.bike_id} | Rider: {setup.rider} | Helmet: {setup.helmet} | Riding Style:{' '}
-                      {setup.riding_style}
+                      Bike: {setup.bike_id} | Rider: {setup.rider} | Helmet: {setup.helmet} | Riding
+                      Style: {setup.riding_style}
                     </p>
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
@@ -475,7 +479,12 @@ export default function SetupsCard(): React.JSX.Element {
                   >
                     cancel
                   </Button>
-                  <Button type="button" onClick={handleSave} disabled={saving} className="shrink-0 uppercase">
+                  <Button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={saving}
+                    className="shrink-0 uppercase"
+                  >
                     {editingId ? 'save' : 'create'}
                   </Button>
                 </div>

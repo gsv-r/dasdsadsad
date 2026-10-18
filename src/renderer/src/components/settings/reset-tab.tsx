@@ -107,8 +107,8 @@ export default function ResetTab(): React.JSX.Element {
         </CardHeader>
         <CardContent>
           <p className="text-xs leading-relaxed text-muted-foreground">
-            Restores all launcher settings to their initial values. Game files, game
-            configs and installed mods are not affected.
+            Restores all launcher settings to their initial values. Game files, game configs and
+            installed mods are not affected.
           </p>
         </CardContent>
       </Card>
@@ -145,8 +145,8 @@ export default function ResetTab(): React.JSX.Element {
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
               <p className="text-sm leading-relaxed text-muted-foreground select-text">
-                This restores all launcher settings to their initial values. Game files,
-                game configs and installed mods are kept. Type
+                This restores all launcher settings to their initial values. Game files, game
+                configs and installed mods are kept. Type
                 {` ${LAUNCHER_RESET_CONFIRMATION} `}to confirm.
               </p>
               <Input

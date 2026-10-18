@@ -72,7 +72,11 @@ export type PracticeGuardResult = { ok: true } | { ok: false; reason: 'setup-loc
 // Setup display names: 1-32 chars after trimming, no control characters.
 // Trimming stays at the call sites (create/update trim before validating,
 // the form trims before submitting), so the schema never transforms.
-export const setupNameSchema = z.string().min(1).max(32).regex(/^[^\p{Cc}]+$/u)
+export const setupNameSchema = z
+  .string()
+  .min(1)
+  .max(32)
+  .regex(/^[^\p{Cc}]+$/u)
 
 // Shape of one setup creation payload. Field presence and types match what
 // the create handler accepted before; semantic checks (name rule,

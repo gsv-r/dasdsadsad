@@ -5,12 +5,7 @@ import { act } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import Bikes from '../screens/bikes'
-import {
-  deferred,
-  makeBikeFixture,
-  renderWithProviders,
-  stubRendererWindow,
-} from '../test-utils'
+import { deferred, makeBikeFixture, renderWithProviders, stubRendererWindow } from '../test-utils'
 import { invalidateModsHydration, invalidateModsSnapshot, BIKES_FIXED_MESSAGE } from './useMods'
 import type { ModsSnapshot } from '../../../types/mods'
 
@@ -43,7 +38,11 @@ describe('useMods hydration invalidation', () => {
     const first = renderWithProviders(<Bikes />)
     expect(screen.getByText(BIKES_FIXED_MESSAGE)).toBeTruthy()
 
-    gateA.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] } })
+    gateA.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike A')
     first.unmount()
@@ -59,7 +58,11 @@ describe('useMods hydration invalidation', () => {
     // Old mods still visible during transition
     expect(screen.getByText('Bike A')).toBeTruthy()
 
-    gateB.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-b', name: 'Bike B' })] } })
+    gateB.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-b', name: 'Bike B' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike B')
 
@@ -76,7 +79,11 @@ describe('useMods hydration invalidation', () => {
     const first = renderWithProviders(<Bikes />)
     expect(screen.getByText(BIKES_FIXED_MESSAGE)).toBeTruthy()
 
-    gate.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] } })
+    gate.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike A')
     first.unmount()
@@ -91,7 +98,11 @@ describe('useMods hydration invalidation', () => {
     // Old mods still visible (snapshot retained) until new fetch completes
     expect(screen.getByText('Bike A')).toBeTruthy()
 
-    gateFresh.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-b', name: 'Bike B' })] } })
+    gateFresh.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-b', name: 'Bike B' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike B')
 
@@ -131,7 +142,11 @@ describe('useMods hydration invalidation', () => {
     const first = renderWithProviders(<Bikes />)
     expect(screen.getByText(BIKES_FIXED_MESSAGE)).toBeTruthy()
 
-    gate.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] } })
+    gate.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike A')
     first.unmount()
@@ -159,7 +174,11 @@ describe('useMods hydration invalidation', () => {
     getAll.mockReturnValue(gate.promise)
 
     const first = renderWithProviders(<Bikes />)
-    gate.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] } })
+    gate.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike A')
 
@@ -183,7 +202,11 @@ describe('useMods hydration invalidation', () => {
     window.mods.refresh = refresh
 
     renderWithProviders(<Bikes />)
-    gate.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] } })
+    gate.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike A')
     expect(getAll).toHaveBeenCalledTimes(1)
@@ -227,7 +250,11 @@ describe('useMods hydration invalidation', () => {
     getAll.mockReturnValue(gate.promise)
 
     const first = renderWithProviders(<Bikes />)
-    gate.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] } })
+    gate.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-a', name: 'Bike A' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike A')
     first.unmount()
@@ -242,7 +269,11 @@ describe('useMods hydration invalidation', () => {
     // Old mods still visible (snapshot retained) until new fetch completes
     expect(screen.getByText('Bike A')).toBeTruthy()
 
-    gateFresh.resolve({ valid: true, ready: true, mods: { bikes: [makeBikeFixture({ id: 'bike-b', name: 'Bike B' })] } })
+    gateFresh.resolve({
+      valid: true,
+      ready: true,
+      mods: { bikes: [makeBikeFixture({ id: 'bike-b', name: 'Bike B' })] }
+    })
     await act(async () => {})
     await screen.findByText('Bike B')
 

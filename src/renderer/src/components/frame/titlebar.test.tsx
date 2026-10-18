@@ -30,7 +30,7 @@ describe('TitleBar', () => {
   })
 
   it('clique em Recarregar grava a flag no sessionStorage e invoca o canal window:reload', () => {
-    const { send } = (window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> })
+    const { send } = window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> }
     renderWithProviders(<TitleBar />)
     fireEvent.click(screen.getByLabelText('Reload'))
     expect(send).toHaveBeenCalledWith('window:reload')
@@ -38,21 +38,21 @@ describe('TitleBar', () => {
   })
 
   it('clique em Minimizar invoca o canal minimize', () => {
-    const { send } = (window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> })
+    const { send } = window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> }
     renderWithProviders(<TitleBar />)
     fireEvent.click(screen.getByLabelText('Minimize'))
     expect(send).toHaveBeenCalledWith('minimize')
   })
 
   it('clique em Maximizar/Restaurar invoca o canal window:maximize', () => {
-    const { send } = (window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> })
+    const { send } = window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> }
     renderWithProviders(<TitleBar />)
     fireEvent.click(screen.getByLabelText('Maximize'))
     expect(send).toHaveBeenCalledWith('window:maximize')
   })
 
   it('clique em Fechar invoca o canal close', () => {
-    const { send } = (window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> })
+    const { send } = window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> }
     renderWithProviders(<TitleBar />)
     fireEvent.click(screen.getByLabelText('Close'))
     expect(send).toHaveBeenCalledWith('close')
@@ -65,7 +65,9 @@ describe('TitleBar', () => {
     }
     render(
       <MemoryRouter initialEntries={['/']}>
-        <MessageModalContext.Provider value={{ showMessage: () => undefined, closeMessage: () => undefined }}>
+        <MessageModalContext.Provider
+          value={{ showMessage: () => undefined, closeMessage: () => undefined }}
+        >
           <TitleBar />
           <Probe />
         </MessageModalContext.Provider>
@@ -82,7 +84,9 @@ describe('TitleBar', () => {
     }
     render(
       <MemoryRouter initialEntries={['/settings']}>
-        <MessageModalContext.Provider value={{ showMessage: () => undefined, closeMessage: () => undefined }}>
+        <MessageModalContext.Provider
+          value={{ showMessage: () => undefined, closeMessage: () => undefined }}
+        >
           <TitleBar />
           <Probe />
         </MessageModalContext.Provider>
@@ -99,13 +103,15 @@ describe('TitleBar', () => {
     }
     render(
       <MemoryRouter initialEntries={['/']}>
-        <MessageModalContext.Provider value={{ showMessage: () => undefined, closeMessage: () => undefined }}>
+        <MessageModalContext.Provider
+          value={{ showMessage: () => undefined, closeMessage: () => undefined }}
+        >
           <TitleBar />
           <Probe />
         </MessageModalContext.Provider>
       </MemoryRouter>
     )
-    const { send } = (window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> })
+    const { send } = window.electron.ipcRenderer as { send: ReturnType<typeof vi.fn> }
     fireEvent.click(screen.getByLabelText('Reload'))
     expect(screen.getByText('path:/')).not.toBeNull()
     expect(send).toHaveBeenCalledWith('window:reload')
@@ -114,7 +120,9 @@ describe('TitleBar', () => {
   it('clique em Voltar navega para a home', () => {
     render(
       <MemoryRouter initialEntries={['/bikes']}>
-        <MessageModalContext.Provider value={{ showMessage: () => undefined, closeMessage: () => undefined }}>
+        <MessageModalContext.Provider
+          value={{ showMessage: () => undefined, closeMessage: () => undefined }}
+        >
           <TitleBar />
           <PathProbe />
         </MessageModalContext.Provider>
@@ -147,7 +155,9 @@ describe('TitleBar', () => {
   it('reconcilia eventos window:state e desfaz a inscrição no unmount', async () => {
     let stateCallback: ((message: { maximized: boolean }) => void) | undefined
     let removed = false
-    const unsubscribe = () => { removed = true }
+    const unsubscribe = () => {
+      removed = true
+    }
     Object.assign(window, {
       windowState: {
         onChange: vi.fn((callback: (message: { maximized: boolean }) => void) => {

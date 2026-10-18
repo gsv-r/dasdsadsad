@@ -18,7 +18,9 @@ type ModListPageProps<T extends { id: string; name?: string; preview: string | n
   onSelect: (item: T) => void | Promise<unknown>
 }
 
-export default function ModListPage<T extends { id: string; name?: string; preview: string | null }>({
+export default function ModListPage<
+  T extends { id: string; name?: string; preview: string | null }
+>({
   label,
   fixedMessage,
   invalidMessage,
@@ -49,7 +51,11 @@ export default function ModListPage<T extends { id: string; name?: string; previ
           />
         </div>
         <div className="scroll min-h-0 flex-1 overflow-y-auto">
-          <ModGrid isEmpty={items.length === 0} fixedMessage={fixedMessage} invalidMessage={invalidMessage}>
+          <ModGrid
+            isEmpty={items.length === 0}
+            fixedMessage={fixedMessage}
+            invalidMessage={invalidMessage}
+          >
             {visible.map((item) => (
               <ModPreview
                 key={item.id}

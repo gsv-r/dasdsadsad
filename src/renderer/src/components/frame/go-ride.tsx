@@ -61,23 +61,91 @@ function toLaunchErrorPayload(detail: string, setupActive: boolean): MessagePayl
     message?: string
     to?: string
   }> = [
-    { match: /Check Steam Path in Settings|Steam not found/, title: 'Steam not found', message: 'Steam executable was not found. Check Steam Path in Settings.', to: '/settings' },
-    { match: /Check Game Path in Settings|Game folder not found/, title: (msg) => msg.includes('was not found inside') ? 'Game executable not found' : 'Game folder not found', message: 'Game folder was not found. Check Game Path in Settings.', to: '/settings' },
-    { match: /Check Mods Path in Settings/, title: (msg) => msg.includes('invalid') ? 'Invalid Mods folder' : 'Mods folder not found', to: '/settings' },
-    { match: /Check Profile Path in Settings|Profile folder not found|Invalid Profile folder|profile\.ini/, title: (msg) => msg.includes('invalid') ? 'Invalid Profile folder' : msg.includes('profile.ini') ? 'Profile configuration missing' : 'Profile folder not found', to: '/settings' },
-    { match: /Profile folder not found|No profile is available/, title: 'Profile not found', to: '/settings' },
+    {
+      match: /Check Steam Path in Settings|Steam not found/,
+      title: 'Steam not found',
+      message: 'Steam executable was not found. Check Steam Path in Settings.',
+      to: '/settings'
+    },
+    {
+      match: /Check Game Path in Settings|Game folder not found/,
+      title: (msg) =>
+        msg.includes('was not found inside')
+          ? 'Game executable not found'
+          : 'Game folder not found',
+      message: 'Game folder was not found. Check Game Path in Settings.',
+      to: '/settings'
+    },
+    {
+      match: /Check Mods Path in Settings/,
+      title: (msg) => (msg.includes('invalid') ? 'Invalid Mods folder' : 'Mods folder not found'),
+      to: '/settings'
+    },
+    {
+      match:
+        /Check Profile Path in Settings|Profile folder not found|Invalid Profile folder|profile\.ini/,
+      title: (msg) =>
+        msg.includes('invalid')
+          ? 'Invalid Profile folder'
+          : msg.includes('profile.ini')
+            ? 'Profile configuration missing'
+            : 'Profile folder not found',
+      to: '/settings'
+    },
+    {
+      match: /Profile folder not found|No profile is available/,
+      title: 'Profile not found',
+      to: '/settings'
+    },
     { match: /Profile name is empty/, title: 'Profile name not configured', to: '/profile' },
-    { match: /Profile race number is empty/, title: 'Profile race number not configured', to: '/profile' },
-    { match: /Profile nationality is not selected/, title: 'Profile nationality not configured', to: '/profile' },
-    { match: /Bike (paint|".*was not found)/, title: (msg) => msg.includes('paint') ? 'Bike paint not found' : 'Bike mod not found', to: setupActive ? '/profile' : '/bikes' },
-    { match: /Track (layout|".*was not found)/, title: (msg) => msg.includes('layout') ? 'Track layout not found' : 'Track mod not found', to: '/tracks' },
-    { match: /Rider suit|Suit paint/, title: (msg) => msg.includes('Suit paint') ? 'Suit paint not found' : 'Rider suit mod not found', to: setupRoute },
-    { match: /Helmet (paint|".*was not found)/, title: (msg) => msg.includes('paint') ? 'Helmet paint not found' : 'Helmet mod not found', to: setupRoute },
+    {
+      match: /Profile race number is empty/,
+      title: 'Profile race number not configured',
+      to: '/profile'
+    },
+    {
+      match: /Profile nationality is not selected/,
+      title: 'Profile nationality not configured',
+      to: '/profile'
+    },
+    {
+      match: /Bike (paint|".*was not found)/,
+      title: (msg) => (msg.includes('paint') ? 'Bike paint not found' : 'Bike mod not found'),
+      to: setupActive ? '/profile' : '/bikes'
+    },
+    {
+      match: /Track (layout|".*was not found)/,
+      title: (msg) => (msg.includes('layout') ? 'Track layout not found' : 'Track mod not found'),
+      to: '/tracks'
+    },
+    {
+      match: /Rider suit|Suit paint/,
+      title: (msg) =>
+        msg.includes('Suit paint') ? 'Suit paint not found' : 'Rider suit mod not found',
+      to: setupRoute
+    },
+    {
+      match: /Helmet (paint|".*was not found)/,
+      title: (msg) => (msg.includes('paint') ? 'Helmet paint not found' : 'Helmet mod not found'),
+      to: setupRoute
+    },
     { match: /Riding style/, title: 'Riding style mod not found', to: setupRoute },
-    { match: /Select a bike/, title: 'Bike not configured', to: setupActive ? '/profile' : '/bikes' },
+    {
+      match: /Select a bike/,
+      title: 'Bike not configured',
+      to: setupActive ? '/profile' : '/bikes'
+    },
     { match: /Select a track/, title: 'Track not configured', to: '/tracks' },
-    { match: /Practice weather settings|Practice settings invalid/, title: 'Practice settings invalid', to: '/' },
-    { match: /Practice configuration could not be read/, title: 'Configuration unreadable', to: '/settings' },
+    {
+      match: /Practice weather settings|Practice settings invalid/,
+      title: 'Practice settings invalid',
+      to: '/'
+    },
+    {
+      match: /Practice configuration could not be read/,
+      title: 'Configuration unreadable',
+      to: '/settings'
+    },
     { match: /Check folder permissions|EACCES|EPERM/, title: 'Game folder not writable' }
   ]
 

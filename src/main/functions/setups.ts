@@ -77,7 +77,9 @@ export function validateSetupName(name: string): boolean {
 function isNameTaken(name: string, excludeId?: string): boolean {
   const setups = readSetupsRaw() ?? []
   const lower = name.trim().toLowerCase()
-  return setups.some((s) => isSetupEntry(s) && s.id !== excludeId && s.name.trim().toLowerCase() === lower)
+  return setups.some(
+    (s) => isSetupEntry(s) && s.id !== excludeId && s.name.trim().toLowerCase() === lower
+  )
 }
 
 export function listSetups(): PlayerSetup[] {

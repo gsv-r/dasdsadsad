@@ -66,7 +66,9 @@ export function useWeatherSettings(): {
   useEffect(() => {
     let cancelled = false
     ensurePracticeValidated()
-      .then(() => Promise.all(SETTING_FIELDS.map((field) => window.store.get<number>(STORE_KEYS[field]))))
+      .then(() =>
+        Promise.all(SETTING_FIELDS.map((field) => window.store.get<number>(STORE_KEYS[field])))
+      )
       .then((values) => {
         if (cancelled) return
 
@@ -127,12 +129,14 @@ export function useWeatherSettings(): {
   }, [])
 
   const updateSetting = useCallback(
-    (field: WeatherField, value: number) => applyPatch({ [field]: value } as Partial<WeatherSettings>),
+    (field: WeatherField, value: number) =>
+      applyPatch({ [field]: value } as Partial<WeatherSettings>),
     [applyPatch]
   )
 
   const updateConditions = useCallback(
-    (value: number) => applyPatch({ conditions: value, trackConditions: trackForConditions(value) }),
+    (value: number) =>
+      applyPatch({ conditions: value, trackConditions: trackForConditions(value) }),
     [applyPatch]
   )
 

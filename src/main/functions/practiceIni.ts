@@ -3,7 +3,16 @@ import path from 'path'
 import * as z from 'zod'
 import { DEFAULT_PRACTICE_STATE, store, type PracticeBikeState } from '../store'
 import { BASE_SELECTION_VALUES } from '../constants'
-import { BIKES_SUBDIR, TRACKS_SUBDIR, RIDERS_SUBDIR, HELMETS_SUBDIR, STYLES_SUBDIR, isModDir, isModFile, paintFileName } from './mods'
+import {
+  BIKES_SUBDIR,
+  TRACKS_SUBDIR,
+  RIDERS_SUBDIR,
+  HELMETS_SUBDIR,
+  STYLES_SUBDIR,
+  isModDir,
+  isModFile,
+  paintFileName
+} from './mods'
 
 const PRACTICE_INI_FILENAME = 'practice.ini'
 
@@ -39,9 +48,7 @@ function readLeaf<T>(section: unknown, field: string, schema: z.ZodType<T>, fall
   if (parsed.success) return raw as T
   if (!reportedLeaves.has(key)) {
     reportedLeaves.add(key)
-    const at = parsed.error.issues
-      .map((issue) => issue.path.join('.'))
-      .find((part) => part !== '')
+    const at = parsed.error.issues.map((issue) => issue.path.join('.')).find((part) => part !== '')
     console.error(
       at === undefined
         ? `Invalid store value for "${key}". Using defaults.`
@@ -90,12 +97,7 @@ function buildPracticeIni(): string {
   const practice = store.store.practice ?? DEFAULT_PRACTICE_STATE
   const bike = practice.bike ?? DEFAULT_PRACTICE_STATE.bike
   const track = practice.track ?? DEFAULT_PRACTICE_STATE.track
-  const settings = readLeaf(
-    practice,
-    'settings',
-    settingsSchema,
-    DEFAULT_PRACTICE_STATE.settings
-  )
+  const settings = readLeaf(practice, 'settings', settingsSchema, DEFAULT_PRACTICE_STATE.settings)
   const dynamicsurface = readLeaf(
     practice,
     'dynamicsurface',
@@ -103,7 +105,11 @@ function buildPracticeIni(): string {
     DEFAULT_PRACTICE_STATE.dynamicsurface
   )
 
-  const trackId = resolveModId(TRACKS_SUBDIR, track?.track_id, DEFAULT_PRACTICE_STATE.track.track_id)
+  const trackId = resolveModId(
+    TRACKS_SUBDIR,
+    track?.track_id,
+    DEFAULT_PRACTICE_STATE.track.track_id
+  )
   const trackLayout =
     track?.track_layout && isModDir(TRACKS_SUBDIR, trackId, track.track_layout)
       ? track.track_layout

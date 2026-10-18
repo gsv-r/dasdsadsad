@@ -86,7 +86,9 @@ export function usePaths(): {
   const refreshingRef = useRef(false)
   // In-flight commits by key for identical-confirmation dedup. Entries are
   // removed on settle, so retrying the same value after a failure works.
-  const pendingCommits = useRef(new Map<PathKey, { payload: string | null; task: Promise<boolean> }>())
+  const pendingCommits = useRef(
+    new Map<PathKey, { payload: string | null; task: Promise<boolean> }>()
+  )
   // Latest user intent per key. Every new intent (commit, edit, Reset, Auto
   // Detect) supersedes in-flight commits: a settlement applies its state
   // updates only when still the latest, so a late rejection can never
@@ -236,7 +238,9 @@ export function usePaths(): {
       // The profile path may have changed: invalidate profile cache.
       invalidateProfileCache()
       setDetected((prev) => (detectedEqual(prev, nextDetected) ? prev : nextDetected))
-      setOverrides((prev) => (overridesEqual(prev, EMPTY_OVERRIDES) ? prev : { ...EMPTY_OVERRIDES }))
+      setOverrides((prev) =>
+        overridesEqual(prev, EMPTY_OVERRIDES) ? prev : { ...EMPTY_OVERRIDES }
+      )
       // Mirror the persisted switch to auto: the next mount must seed from
       // the detected values, never from the discarded manual ones.
       writeCachedPaths({ ...EMPTY_OVERRIDES }, nextDetected)

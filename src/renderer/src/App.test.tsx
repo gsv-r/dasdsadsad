@@ -26,7 +26,10 @@ beforeEach(() => {
       setSuitPaint: () => Promise.resolve({ ok: true }),
       selectRidingStyle: () => Promise.resolve({ ok: true })
     },
-    paths: { detect: () => Promise.resolve({ steamPath: null, gamePath: null, modsPath: null, profilePath: null }) },
+    paths: {
+      detect: () =>
+        Promise.resolve({ steamPath: null, gamePath: null, modsPath: null, profilePath: null })
+    },
     profiles: {
       list: () => Promise.resolve([]),
       active: () => Promise.resolve(null),
@@ -39,12 +42,16 @@ beforeEach(() => {
       delete: () => Promise.resolve({ ok: false, reason: 'write-failed' }),
       select: () => Promise.resolve({ ok: true })
     },
-    mods: { getAll: () => Promise.resolve({ valid: true, ready: true, mods: {} }), onChanged: () => () => undefined },
+    mods: {
+      getAll: () => Promise.resolve({ valid: true, ready: true, mods: {} }),
+      onChanged: () => () => undefined
+    },
     validation: { validateApp: () => Promise.resolve({ valid: true, issues: [] }) },
     appInfo: { getVersion: () => Promise.resolve('0.1.4') },
     launcher: { reset: () => Promise.resolve(undefined) },
     updater: {
-      checkForUpdates: () => Promise.resolve({ currentVersion: '0.1.4', latestVersion: null, updateAvailable: false }),
+      checkForUpdates: () =>
+        Promise.resolve({ currentVersion: '0.1.4', latestVersion: null, updateAvailable: false }),
       downloadUpdate: () => Promise.resolve(undefined),
       installUpdate: () => Promise.resolve(undefined),
       getStatus: () => Promise.resolve({ status: 'idle' }),

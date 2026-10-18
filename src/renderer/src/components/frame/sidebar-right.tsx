@@ -22,7 +22,9 @@ export default function SidebarRight(): React.JSX.Element {
         aria-current={active ? 'page' : undefined}
         className={cn(
           'flex size-14 items-center justify-center rounded-none border text-nav-text outline-none transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
-          active ? 'border-sidebar-border bg-sidebar-accent text-ring' : 'border-(--kd-border-button)'
+          active
+            ? 'border-sidebar-border bg-sidebar-accent text-ring'
+            : 'border-(--kd-border-button)'
         )}
       >
         <Icon component={IconUser} size={24} aria-hidden="true" />

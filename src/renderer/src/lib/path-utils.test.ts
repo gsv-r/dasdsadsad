@@ -19,8 +19,6 @@ describe('path-utils extraction', () => {
 
   it('keeps behavior identical through the new import path', () => {
     expect(normalizeCommitDraft('  C:\\mods  ')).toBe('C:\\mods')
-    expect(
-      invalidFlagsForFirstIssue([{ code: 'MODS_FOLDER_INVALID' }]).mods
-    ).toBe(true)
+    expect(invalidFlagsForFirstIssue([{ code: 'MODS_FOLDER_INVALID' }]).mods).toBe(true)
   })
 })

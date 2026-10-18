@@ -117,9 +117,7 @@ function findGameInLibraries(steamDir: string, appId: string): string | null {
   for (const library of libraries) {
     const manifest = path.join(library, 'steamapps', `appmanifest_${appId}.acf`)
     if (!fs.existsSync(manifest)) continue
-    const installDir = fs
-      .readFileSync(manifest, 'utf-8')
-      .match(/"installdir"\s*"([^"]+)"/i)?.[1]
+    const installDir = fs.readFileSync(manifest, 'utf-8').match(/"installdir"\s*"([^"]+)"/i)?.[1]
     if (!installDir) continue
     const gamePath = path.join(library, 'steamapps', 'common', installDir)
     if (fs.existsSync(gamePath)) return gamePath

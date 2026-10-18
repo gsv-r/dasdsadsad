@@ -30,7 +30,9 @@ describe('ResetTab', () => {
     fireEvent.click(screen.getByRole('button', { name: 'reset' }))
     expect(screen.getByRole('alertdialog')).toBeTruthy()
 
-    fireEvent.keyDown(document.querySelector('[data-slot="message-modal-overlay"]')!, { key: 'Escape' })
+    fireEvent.keyDown(document.querySelector('[data-slot="message-modal-overlay"]')!, {
+      key: 'Escape'
+    })
     fireEvent.keyDown(document, { key: 'Escape' })
 
     expect(screen.getByRole('alertdialog')).toBeTruthy()

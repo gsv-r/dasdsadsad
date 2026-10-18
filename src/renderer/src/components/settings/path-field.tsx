@@ -193,7 +193,9 @@ export default function PathField({
           between the path inputs. Error and hint enter the flow only when
           they exist. */}
       <div aria-live="polite" className="empty:hidden">
-        {error ? <p className="text-xs leading-relaxed text-destructive select-text">{error}</p> : null}
+        {error ? (
+          <p className="text-xs leading-relaxed text-destructive select-text">{error}</p>
+        ) : null}
         {!error && invalid ? (
           <p className="text-xs leading-relaxed text-destructive select-text">
             The saved path is invalid. Fix it above, or use reset / auto detect.

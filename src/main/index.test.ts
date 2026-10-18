@@ -180,7 +180,9 @@ describe('Go Ride failing for another reason', () => {
     // Break the game instead of the mods path.
     fs.rmSync(path.join(gameDir, 'gpbikes.exe'), { force: true })
     try {
-      await expect(handler('launch')()).rejects.toThrow(/was not found inside the configured Game Path/)
+      await expect(handler('launch')()).rejects.toThrow(
+        /was not found inside the configured Game Path/
+      )
       expect((getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toEqual(['bikeA'])
       expect(messages.slice(before).some((m) => !isDiff(m) && !m.valid)).toBe(false)
     } finally {
@@ -520,34 +522,174 @@ describe('practice arg validation', () => {
   }
 
   const INVALID_CASES: Array<{ channel: string; message: string; args: unknown[]; raw: string }> = [
-    { channel: 'practice:select-bike', message: 'Invalid bike selection.', args: [987654, []], raw: '987654' },
-    { channel: 'practice:select-bike', message: 'Invalid bike selection.', args: [['zzArr9'], []], raw: 'zzArr9' },
-    { channel: 'practice:select-bike', message: 'Invalid bike selection.', args: ['../escape-1b', []], raw: 'escape-1b' },
-    { channel: 'practice:select-bike', message: 'Invalid bike selection.', args: ['bikeA', 'zzStr9'], raw: 'zzStr9' },
-    { channel: 'practice:select-bike', message: 'Invalid bike selection.', args: ['bikeA', [987654]], raw: '987654' },
-    { channel: 'practice:select-bike', message: 'Invalid bike selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:select-track', message: 'Invalid track selection.', args: [987654, []], raw: '987654' },
-    { channel: 'practice:select-track', message: 'Invalid track selection.', args: ['../escape-1b', []], raw: 'escape-1b' },
-    { channel: 'practice:select-track', message: 'Invalid track selection.', args: ['trackA', [987654]], raw: '987654' },
-    { channel: 'practice:select-track', message: 'Invalid track selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:set-bike-paint', message: 'Invalid bike paint selection.', args: [987654], raw: '987654' },
-    { channel: 'practice:set-bike-paint', message: 'Invalid bike paint selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:set-bike-paint', message: 'Invalid bike paint selection.', args: ['a/b'], raw: 'a/b' },
-    { channel: 'practice:set-track-layout', message: 'Invalid track layout selection.', args: [987654], raw: '987654' },
-    { channel: 'practice:set-track-layout', message: 'Invalid track layout selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:select-helmet', message: 'Invalid helmet selection.', args: [987654, []], raw: '987654' },
-    { channel: 'practice:select-helmet', message: 'Invalid helmet selection.', args: ['h', [987654]], raw: '987654' },
-    { channel: 'practice:select-helmet', message: 'Invalid helmet selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:set-helmet-paint', message: 'Invalid helmet paint selection.', args: [987654], raw: '987654' },
-    { channel: 'practice:set-helmet-paint', message: 'Invalid helmet paint selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:select-rider', message: 'Invalid rider selection.', args: [987654, []], raw: '987654' },
-    { channel: 'practice:select-rider', message: 'Invalid rider selection.', args: ['s', [987654]], raw: '987654' },
-    { channel: 'practice:select-rider', message: 'Invalid rider selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:set-suit-paint', message: 'Invalid suit paint selection.', args: [987654], raw: '987654' },
-    { channel: 'practice:set-suit-paint', message: 'Invalid suit paint selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:select-riding-style', message: 'Invalid riding style selection.', args: [987654], raw: '987654' },
-    { channel: 'practice:select-riding-style', message: 'Invalid riding style selection.', args: [], raw: 'undefined' },
-    { channel: 'practice:select-riding-style', message: 'Invalid riding style selection.', args: ['a:b'], raw: 'a:b' }
+    {
+      channel: 'practice:select-bike',
+      message: 'Invalid bike selection.',
+      args: [987654, []],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-bike',
+      message: 'Invalid bike selection.',
+      args: [['zzArr9'], []],
+      raw: 'zzArr9'
+    },
+    {
+      channel: 'practice:select-bike',
+      message: 'Invalid bike selection.',
+      args: ['../escape-1b', []],
+      raw: 'escape-1b'
+    },
+    {
+      channel: 'practice:select-bike',
+      message: 'Invalid bike selection.',
+      args: ['bikeA', 'zzStr9'],
+      raw: 'zzStr9'
+    },
+    {
+      channel: 'practice:select-bike',
+      message: 'Invalid bike selection.',
+      args: ['bikeA', [987654]],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-bike',
+      message: 'Invalid bike selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:select-track',
+      message: 'Invalid track selection.',
+      args: [987654, []],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-track',
+      message: 'Invalid track selection.',
+      args: ['../escape-1b', []],
+      raw: 'escape-1b'
+    },
+    {
+      channel: 'practice:select-track',
+      message: 'Invalid track selection.',
+      args: ['trackA', [987654]],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-track',
+      message: 'Invalid track selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:set-bike-paint',
+      message: 'Invalid bike paint selection.',
+      args: [987654],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:set-bike-paint',
+      message: 'Invalid bike paint selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:set-bike-paint',
+      message: 'Invalid bike paint selection.',
+      args: ['a/b'],
+      raw: 'a/b'
+    },
+    {
+      channel: 'practice:set-track-layout',
+      message: 'Invalid track layout selection.',
+      args: [987654],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:set-track-layout',
+      message: 'Invalid track layout selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:select-helmet',
+      message: 'Invalid helmet selection.',
+      args: [987654, []],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-helmet',
+      message: 'Invalid helmet selection.',
+      args: ['h', [987654]],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-helmet',
+      message: 'Invalid helmet selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:set-helmet-paint',
+      message: 'Invalid helmet paint selection.',
+      args: [987654],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:set-helmet-paint',
+      message: 'Invalid helmet paint selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:select-rider',
+      message: 'Invalid rider selection.',
+      args: [987654, []],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-rider',
+      message: 'Invalid rider selection.',
+      args: ['s', [987654]],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-rider',
+      message: 'Invalid rider selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:set-suit-paint',
+      message: 'Invalid suit paint selection.',
+      args: [987654],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:set-suit-paint',
+      message: 'Invalid suit paint selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:select-riding-style',
+      message: 'Invalid riding style selection.',
+      args: [987654],
+      raw: '987654'
+    },
+    {
+      channel: 'practice:select-riding-style',
+      message: 'Invalid riding style selection.',
+      args: [],
+      raw: 'undefined'
+    },
+    {
+      channel: 'practice:select-riding-style',
+      message: 'Invalid riding style selection.',
+      args: ['a:b'],
+      raw: 'a:b'
+    }
   ]
 
   it.each(INVALID_CASES)(
@@ -609,23 +751,22 @@ describe('practice arg validation', () => {
 })
 
 describe('profiles:save validation', () => {
-  it.each([[123], [null], [[]]])(
-    'rejects a mistyped id with invalid-id: %s',
-    async (id) => {
-      expect(await handler('profiles:save')(undefined, { id, name: 'Rider', raceNumber: '7' })).toEqual({
-        ok: false,
-        reason: 'invalid-id'
-      })
-    }
-  )
+  it.each([[123], [null], [[]]])('rejects a mistyped id with invalid-id: %s', async (id) => {
+    expect(
+      await handler('profiles:save')(undefined, { id, name: 'Rider', raceNumber: '7' })
+    ).toEqual({
+      ok: false,
+      reason: 'invalid-id'
+    })
+  })
 
   it.each([[123], [null], [[]]])('rejects a mistyped name with invalid-name: %s', async (name) => {
-    expect(await handler('profiles:save')(undefined, { id: 'Rider', name, raceNumber: '7' })).toEqual(
-      {
-        ok: false,
-        reason: 'invalid-name'
-      }
-    )
+    expect(
+      await handler('profiles:save')(undefined, { id: 'Rider', name, raceNumber: '7' })
+    ).toEqual({
+      ok: false,
+      reason: 'invalid-name'
+    })
   })
 
   it.each([[123], [null], [[]]])(
@@ -637,12 +778,15 @@ describe('profiles:save validation', () => {
     }
   )
 
-  it.each([[undefined], [null], ['x'], [[]], [{}]])('rejects a missing object: %s', async (args) => {
-    expect(await handler('profiles:save')(undefined, args)).toEqual({
-      ok: false,
-      reason: 'invalid-id'
-    })
-  })
+  it.each([[undefined], [null], ['x'], [[]], [{}]])(
+    'rejects a missing object: %s',
+    async (args) => {
+      expect(await handler('profiles:save')(undefined, args)).toEqual({
+        ok: false,
+        reason: 'invalid-id'
+      })
+    }
+  )
 
   it('applies field priority id, then name, then race number', async () => {
     expect(await handler('profiles:save')(undefined, { id: 1, name: 2, raceNumber: 3 })).toEqual({
@@ -684,9 +828,9 @@ describe('setups:create/update validation', () => {
   it('creates with valid args and drops unknown keys', async () => {
     const before = await listIds()
     try {
-      expect(
-        await handler('setups:create')(undefined, { ...fullArgs, hacked: true })
-      ).toEqual({ ok: true })
+      expect(await handler('setups:create')(undefined, { ...fullArgs, hacked: true })).toEqual({
+        ok: true
+      })
       const after = (await handler('setups:list')()) as Array<Record<string, unknown>>
       const created = after.find((s) => !before.includes(s['id'] as string))
       expect(created).toBeDefined()

@@ -1,7 +1,17 @@
 import fs from 'fs'
 import path from 'path'
 import { BASE_SELECTION_VALUES, GAME_PROCESS_NAME } from '../constants'
-import { getResolvedGamePath, getResolvedModsPath, getResolvedProfilePath, getResolvedSteamPath, getStoredModsPath, getStoredProfilePath, isValidModsPath, isValidProfilePath, resolveSteamExecutable } from './paths'
+import {
+  getResolvedGamePath,
+  getResolvedModsPath,
+  getResolvedProfilePath,
+  getResolvedSteamPath,
+  getStoredModsPath,
+  getStoredProfilePath,
+  isValidModsPath,
+  isValidProfilePath,
+  resolveSteamExecutable
+} from './paths'
 import { weatherSettingsSchema } from '../../types/weather'
 import { DEFAULT_PRACTICE_STATE, store } from '../store'
 import {
@@ -172,7 +182,8 @@ function checkPracticeSelection(issues: AppValidationIssue[]): void {
     issues.push({
       code: 'PRACTICE_CONFIG_UNREADABLE',
       title: 'Configuration unreadable',
-      message: 'Practice configuration could not be read. Check the app configuration and try again.'
+      message:
+        'Practice configuration could not be read. Check the app configuration and try again.'
     })
   }
 }
@@ -399,7 +410,13 @@ function checkInstalledMods(modsPath: string, issues: AppValidationIssue[]): voi
       message: modNotFoundMessage(
         'Helmet paint',
         bike.helmet_paint,
-        path.join(modsPath, HELMETS_SUBDIR, bike.helmet, 'paints', paintFileName(bike.helmet_paint)),
+        path.join(
+          modsPath,
+          HELMETS_SUBDIR,
+          bike.helmet,
+          'paints',
+          paintFileName(bike.helmet_paint)
+        ),
         'Select another helmet paint in Practice or reinstall the mod'
       )
     })

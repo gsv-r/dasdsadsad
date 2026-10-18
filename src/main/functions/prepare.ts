@@ -33,7 +33,11 @@ const PREPARE_CONFIGS: Record<string, PrepareConfig> = {
   }
 }
 
-async function prepareItems({ subdir, extraDirs = [], metadata }: PrepareConfig): Promise<string[] | false> {
+async function prepareItems({
+  subdir,
+  extraDirs = [],
+  metadata
+}: PrepareConfig): Promise<string[] | false> {
   const modsPath = getResolvedModsPath()
   if (!modsPath) return false
 

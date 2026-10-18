@@ -8,12 +8,20 @@ type ModGridProps = {
   children: ReactNode
 }
 
-function ModGridEmpty({ fixedMessage, invalidMessage }: { fixedMessage: string; invalidMessage: string }): React.JSX.Element {
+function ModGridEmpty({
+  fixedMessage,
+  invalidMessage
+}: {
+  fixedMessage: string
+  invalidMessage: string
+}): React.JSX.Element {
   return (
     <Card>
       <CardContent className="text-muted-foreground py-10 text-center text-sm tracking-wide uppercase">
         {invalidMessage ? (
-          <p aria-live="polite" className="text-destructive">{invalidMessage}</p>
+          <p aria-live="polite" className="text-destructive">
+            {invalidMessage}
+          </p>
         ) : (
           <p>{fixedMessage}</p>
         )}

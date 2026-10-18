@@ -3,7 +3,13 @@ import type { PlayerProfile, ProfileSaveResult } from '../types/profiles'
 import type { StoreSetResult } from '../types/store'
 import type { SendChannel } from '../types/ipc'
 import type { StoreReadKey } from '../types/store'
-import type { PlayerSetup, PracticeGuardResult, SetupSaveResult, SetupDeleteResult, SetupSelectResult } from '../types/setups'
+import type {
+  PlayerSetup,
+  PracticeGuardResult,
+  SetupSaveResult,
+  SetupDeleteResult,
+  SetupSelectResult
+} from '../types/setups'
 
 export interface UpdateCheckResult {
   currentVersion: string

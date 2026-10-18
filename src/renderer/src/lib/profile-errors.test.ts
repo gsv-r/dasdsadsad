@@ -28,13 +28,19 @@ describe('saveErrorField', () => {
   it('points at no field for anything else', () => {
     expect(saveErrorField('A profile with this name already exists.')).toBeNull()
     expect(
-      saveErrorField('The selected profile is no longer available. Reopen the Profile tab and try again.')
+      saveErrorField(
+        'The selected profile is no longer available. Reopen the Profile tab and try again.'
+      )
     ).toBeNull()
     expect(
-      saveErrorField('Could not write the profile files. Close the game, check the Profile Path in Settings, and try again.')
+      saveErrorField(
+        'Could not write the profile files. Close the game, check the Profile Path in Settings, and try again.'
+      )
     ).toBeNull()
     expect(saveErrorField('Profile not found. Check Profile Path in Settings.')).toBeNull()
     expect(saveErrorField('Could not save the profile. Check the values and try again.')).toBeNull()
-    expect(saveErrorField('Could not save the nationality. Check the value and try again.')).toBeNull()
+    expect(
+      saveErrorField('Could not save the nationality. Check the value and try again.')
+    ).toBeNull()
   })
 })

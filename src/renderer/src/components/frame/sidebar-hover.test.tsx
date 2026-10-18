@@ -22,10 +22,12 @@ describe('Sidebar hover', () => {
   it('SidebarLeft items use sidebar-accent hover', () => {
     render(
       <MemoryRouter>
-        <MessageModalContext.Provider value={{ showMessage: () => undefined, closeMessage: () => undefined }}>
+        <MessageModalContext.Provider
+          value={{ showMessage: () => undefined, closeMessage: () => undefined }}
+        >
           <SidebarLeft />
         </MessageModalContext.Provider>
-      </MemoryRouter>,
+      </MemoryRouter>
     )
     const practice = screen.getByRole('link', { name: 'practice' })
     expect(practice.className).toContain('hover:bg-sidebar-accent')
@@ -36,10 +38,12 @@ describe('Sidebar hover', () => {
   it('SidebarRight avatar uses sidebar-accent hover', () => {
     render(
       <MemoryRouter>
-        <MessageModalContext.Provider value={{ showMessage: () => undefined, closeMessage: () => undefined }}>
+        <MessageModalContext.Provider
+          value={{ showMessage: () => undefined, closeMessage: () => undefined }}
+        >
           <SidebarRight />
         </MessageModalContext.Provider>
-      </MemoryRouter>,
+      </MemoryRouter>
     )
     const avatar = screen.getByLabelText('profile')
     expect(avatar.className).toContain('hover:bg-sidebar-accent')

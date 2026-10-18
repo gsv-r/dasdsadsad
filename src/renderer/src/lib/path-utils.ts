@@ -214,7 +214,9 @@ export function overridesEqual(a: Overrides, b: Overrides): boolean {
 }
 
 export function detectedEqual(a: DetectedPaths, b: DetectedPaths): boolean {
-  return PATH_KEYS.every((key) => a[`${key}Path` as keyof DetectedPaths] === b[`${key}Path` as keyof DetectedPaths])
+  return PATH_KEYS.every(
+    (key) => a[`${key}Path` as keyof DetectedPaths] === b[`${key}Path` as keyof DetectedPaths]
+  )
 }
 
 export function toDetected(raw: DetectedPaths | null | undefined): DetectedPaths {
@@ -227,7 +229,11 @@ export function toDetected(raw: DetectedPaths | null | undefined): DetectedPaths
 }
 
 export async function persistAuto(detected: DetectedPaths): Promise<void> {
-  await Promise.all(PATH_KEYS.map((key) => window.store.set(AUTO_STORE_KEYS[key], detected[`${key}Path` as keyof DetectedPaths])))
+  await Promise.all(
+    PATH_KEYS.map((key) =>
+      window.store.set(AUTO_STORE_KEYS[key], detected[`${key}Path` as keyof DetectedPaths])
+    )
+  )
 }
 
 export async function clearManual(): Promise<void> {

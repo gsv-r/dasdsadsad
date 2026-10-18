@@ -3,6 +3,7 @@
 ## Product-owner decisions (supersede parts of this document)
 
 These owner decisions override the corresponding sections above:
+
 - Backgrounds: three levels — TitleBar `--kd-surface-alt`, SidebarLeft `--kd-surface`, main content `--kd-bg`. Mapped as theme tokens (`--color-titlebar-bg`, `--color-sidebar`, `--color-background`) in `@theme inline`; borders/dividers stay `--kd-border`. Cards (`--kd-surface`) keep their current values and remain distinct on the `--kd-bg` main area; no card sits on the new surfaces.
 - Typography: Orbitron 800 only in the "knee down" logo, single color `--kd-text` (no red accent on "down"); the NavBar section title leaves Orbitron. All other UI (NavBar, sidebar, screens, inputs, buttons, modals) uses Montserrat via the `--kd-font-ui` token; Barlow Condensed is removed.
 - Fonts: Montserrat 400/500/600/800 (latin woff2 from @fontsource/montserrat, OFL) under `src/renderer/src/assets/fonts/montserrat/`; Barlow Condensed woff2 + OFL and Orbitron 900 removed. Tokens: `--kd-font-ui: "Montserrat", sans-serif`; `--kd-font-brand: "Orbitron", sans-serif` (unchanged).
@@ -30,6 +31,7 @@ Carregue a família Orbitron usando o Google Fonts:
 https://fonts.googleapis.com/css2?family=Orbitron:wght@800;900&display=swap
 
 Aplicações:
+
 - Logotipo KNEE DOWN.
 - Títulos principais de grande impacto.
 - Cabeçalhos de seções importantes.
@@ -38,7 +40,7 @@ Aplicações:
 Configuração recomendada:
 
 ```css
-font-family: "Orbitron", sans-serif;
+font-family: 'Orbitron', sans-serif;
 font-weight: 800;
 text-transform: uppercase;
 ```
@@ -56,6 +58,7 @@ Google Fonts:
 https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Orbitron:wght@800;900&display=swap
 
 Pesos recomendados:
+
 - 400: textos corridos e descrições.
 - 500 e 600: textos de interface.
 - 700 e 800: navegação, botões e chamadas.
@@ -95,34 +98,34 @@ Centralize as cores em variáveis globais, adaptando a sintaxe ao framework exis
 ```css
 :root {
   /* Brand */
-  --kd-red: #FF453A;
-  --kd-red-hover: #FF6259;
-  --kd-lime: #C5FF42;
+  --kd-red: #ff453a;
+  --kd-red-hover: #ff6259;
+  --kd-lime: #c5ff42;
 
   /* Backgrounds */
   --kd-bg: #101113;
-  --kd-surface: #191A1D;
+  --kd-surface: #191a1d;
   --kd-surface-alt: #202226;
-  --kd-surface-hover: #2A2D32;
+  --kd-surface-hover: #2a2d32;
   --kd-browser-theme: #111214;
 
   /* Text */
-  --kd-text: #F2F2EE;
-  --kd-text-muted: #A7A9AF;
-  --kd-text-secondary: #C1C2C6;
-  --kd-nav-text: #D1D2D4;
-  --kd-text-subtle: #51535A;
-  --kd-footer-text: #777A80;
+  --kd-text: #f2f2ee;
+  --kd-text-muted: #a7a9af;
+  --kd-text-secondary: #c1c2c6;
+  --kd-nav-text: #d1d2d4;
+  --kd-text-subtle: #51535a;
+  --kd-footer-text: #777a80;
 
   /* Borders */
-  --kd-border: #34363B;
-  --kd-border-panel: #3B3D42;
-  --kd-border-strong: #45474C;
-  --kd-border-button: #62646A;
+  --kd-border: #34363b;
+  --kd-border-panel: #3b3d42;
+  --kd-border-strong: #45474c;
+  --kd-border-button: #62646a;
 
   /* Typography */
-  --kd-font-brand: "Orbitron", sans-serif;
-  --kd-font-ui: "Montserrat", sans-serif;
+  --kd-font-brand: 'Orbitron', sans-serif;
+  --kd-font-ui: 'Montserrat', sans-serif;
 }
 ```
 
@@ -136,12 +139,12 @@ Justification: no lighter surface token existed above `--kd-surface-alt`; hover 
 
 Contrast ratios (`#2A2D32` vs. each surface, and `--kd-text` on hover):
 
-| Pair | Ratio |
-|------|-------|
-| `--kd-surface-hover` vs `--kd-bg` | 1.37:1 |
-| `--kd-surface-hover` vs `--kd-surface` | 1.26:1 |
-| `--kd-surface-hover` vs `--kd-surface-alt` | 1.15:1 |
-| `--kd-text` on `--kd-surface-hover` | 12.31:1 |
+| Pair                                       | Ratio   |
+| ------------------------------------------ | ------- |
+| `--kd-surface-hover` vs `--kd-bg`          | 1.37:1  |
+| `--kd-surface-hover` vs `--kd-surface`     | 1.26:1  |
+| `--kd-surface-hover` vs `--kd-surface-alt` | 1.15:1  |
+| `--kd-text` on `--kd-surface-hover`        | 12.31:1 |
 
 Do not create additional hover tokens; map `accent` and `sidebar-accent` to this token in the shadcn alias map.
 
@@ -165,6 +168,7 @@ Use esses efeitos com moderação. A textura de fundo deve ser quase imperceptí
 Adote uma estética inspirada em paddocks, boxes, grids de largada, telemetria, números de competição e sinalização de autódromos.
 
 Características:
+
 - Predominância de preto e grafite.
 - Tipografia esportiva e condensada.
 - Títulos grandes, objetivos e predominantemente em caixa alta.
@@ -184,27 +188,35 @@ A estética deve comunicar competição e comunidade, mantendo um acabamento mad
 ## 7. Aplicação por componente
 
 ### Cabeçalho e navegação
+
 Use fundo escuro, logotipo Orbitron ExtraBold, links claros e divisória discreta. Reserve o vermelho para a principal chamada de ação. Garanta navegação funcional em dispositivos móveis.
 
 ### Hero ou seção principal
+
 Crie uma hierarquia forte com um título de grande escala, descrição curta e chamadas de ação bem diferenciadas. Se existir conteúdo visual, integre-o à composição em vez de adicionar imagens decorativas sem função.
 
 ### Botões primários
+
 Utilize fundo `#FF453A`, texto escuro, tipografia de peso elevado e, se combinar com o design existente, pequenos cortes diagonais nos cantos. No hover, utilize `#FF6259`.
 
 ### Botões secundários
+
 Use fundo transparente, texto `#F2F2EE` e borda `#62646A`. No hover, a borda e o texto podem assumir `#C5FF42`.
 
 ### Cards e painéis
+
 Use `#191A1D` ou `#202226`, com bordas finas e discretas. Aplique pequenos indicadores vermelhos ou verde-lima. Preserve espaçamento interno e legibilidade.
 
 ### Títulos de seção
+
 Utilize Orbitron com peso 800. Use vermelho em palavras pontuais ou etiquetas, sem colorir todos os títulos integralmente.
 
 ### Textos corridos
+
 Utilize Barlow Condensed. Mantenha altura de linha confortável, largura de leitura adequada e contraste suficiente.
 
 ### Rodapé
+
 Use fundo escuro, textos discretos e identidade visual consistente com o cabeçalho. Não deve competir com o conteúdo principal.
 
 ## 8. Responsividade e acessibilidade

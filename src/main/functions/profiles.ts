@@ -445,7 +445,11 @@ export function saveProfileInfo(
   let previousProfileRaw: string
   try {
     previousProfileRaw = fs.readFileSync(iniPath, 'utf-8')
-    fs.writeFileSync(iniPath, updateProfileIniContent(previousProfileRaw, cleanName, cleanRace), 'utf-8')
+    fs.writeFileSync(
+      iniPath,
+      updateProfileIniContent(previousProfileRaw, cleanName, cleanRace),
+      'utf-8'
+    )
   } catch (error) {
     console.error(`Failed to write profile.ini at "${iniPath}":`, error)
     // The folder was already renamed: best-effort rollback so a failed

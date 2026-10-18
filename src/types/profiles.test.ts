@@ -62,10 +62,13 @@ describe('raceNumberSchema', () => {
     expect(oldIsValidRaceNumber(value)).toBe(true)
   })
 
-  it.each(['', '100', '-1', 'a1', '1 ', ' 7', '１', '1.5'])('rejects %s like the old check', (value) => {
-    expect(raceNumberSchema.safeParse(value).success).toBe(false)
-    expect(oldIsValidRaceNumber(value)).toBe(false)
-  })
+  it.each(['', '100', '-1', 'a1', '1 ', ' 7', '１', '1.5'])(
+    'rejects %s like the old check',
+    (value) => {
+      expect(raceNumberSchema.safeParse(value).success).toBe(false)
+      expect(oldIsValidRaceNumber(value)).toBe(false)
+    }
+  )
 })
 
 describe('isValidProfileFolderName', () => {

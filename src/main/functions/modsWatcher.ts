@@ -5,7 +5,13 @@ import type { FSWatcher } from 'chokidar'
 import { store } from '../store'
 import { getResolvedModsPath, sameModsPath } from './paths'
 import { subdirForType } from './mods'
-import { prepareBikes, prepareHelmets, prepareRiders, prepareRidingStyles, prepareTracks } from './prepare'
+import {
+  prepareBikes,
+  prepareHelmets,
+  prepareRiders,
+  prepareRidingStyles,
+  prepareTracks
+} from './prepare'
 import {
   isSameMod,
   scanBikes,
@@ -17,7 +23,15 @@ import {
 } from './scan'
 import { MOD_FILE_EXTENSION } from '../constants'
 import { MODS_CACHE_VERSION } from '../../types/mods'
-import type { AnyMod, ModChangedMessage, ModDiff, ModsCachePersisted, ModsLists, ModsSnapshot, ModType } from '../../types/mods'
+import type {
+  AnyMod,
+  ModChangedMessage,
+  ModDiff,
+  ModsCachePersisted,
+  ModsLists,
+  ModsSnapshot,
+  ModType
+} from '../../types/mods'
 
 const MOD_TYPES: ModType[] = ['bikes', 'tracks', 'riders', 'helmets', 'ridingStyles']
 const EVENT_DEBOUNCE_MS = 300
@@ -174,21 +188,22 @@ function schedulePersist(): void {
 function persistCacheSync(): void {
   persistDirty = false
   try {
-    const next = modsValid && activeModsPath
-      ? {
-        version: MODS_CACHE_VERSION,
-        valid: true,
-        ready: cacheReady,
-        modsPath: activeModsPath,
-        mods: listsFromCache()
-      }
-      : {
-        version: MODS_CACHE_VERSION,
-        valid: false,
-        ready: false,
-        modsPath: activeModsPath,
-        mods: {}
-      }
+    const next =
+      modsValid && activeModsPath
+        ? {
+            version: MODS_CACHE_VERSION,
+            valid: true,
+            ready: cacheReady,
+            modsPath: activeModsPath,
+            mods: listsFromCache()
+          }
+        : {
+            version: MODS_CACHE_VERSION,
+            valid: false,
+            ready: false,
+            modsPath: activeModsPath,
+            mods: {}
+          }
     const serialized = JSON.stringify(next)
     if (serialized === lastPersisted) return
     lastPersisted = serialized
@@ -238,9 +253,9 @@ export function resolveEventTarget(
   if (rel === '' || rel.startsWith('..')) return null
   // Normalize path separators for cross-platform compatibility
   const normalizedRel = rel.split(path.sep).filter((p) => p !== '')
-  
+
   if (normalizedRel.length === 0) return null
-  
+
   // bikes/<id>/... e tracks/<id>/... (qualquer profundidade): resolve para o mod pai.
   if (normalizedRel[0] === 'bikes' || normalizedRel[0] === 'tracks') {
     if (!normalizedRel[1]) return null
@@ -294,23 +309,26 @@ function scheduleScanRetry(type: ModType, id: string): void {
   // Intervalo crescente: 200, 400, 800, 1600, 3200 ms.
   retryTimers.set(
     key,
-    setTimeout(() => {
-      retryTimers.delete(key)
-      // A pasta pode ter se tornado invalidada enquanto o retry esperava.
-      if (!sameModsPath(resolveCurrentPath(), activeModsPath) || !activeModsPath) {
-        retryCount.delete(key)
-        void resyncSingleFlight()
-        return
-      }
-      const scanGeneration = resyncGeneration
-      scanOne(type, id)
-        .then((mod) => {
-          // Um resync pode ter limpo o cache enquanto o retry estava em voo.
-          if (scanGeneration !== resyncGeneration) return
-          applyScanResult(type, id, mod)
-        })
-        .catch((error) => console.error(`Failed to retry scan ${key}:`, error))
-    }, RETRY_BASE_MS * 2 ** (count - 1))
+    setTimeout(
+      () => {
+        retryTimers.delete(key)
+        // A pasta pode ter se tornado invalidada enquanto o retry esperava.
+        if (!sameModsPath(resolveCurrentPath(), activeModsPath) || !activeModsPath) {
+          retryCount.delete(key)
+          void resyncSingleFlight()
+          return
+        }
+        const scanGeneration = resyncGeneration
+        scanOne(type, id)
+          .then((mod) => {
+            // Um resync pode ter limpo o cache enquanto o retry estava em voo.
+            if (scanGeneration !== resyncGeneration) return
+            applyScanResult(type, id, mod)
+          })
+          .catch((error) => console.error(`Failed to retry scan ${key}:`, error))
+      },
+      RETRY_BASE_MS * 2 ** (count - 1)
+    )
   )
 }
 
@@ -567,7 +585,9 @@ async function resyncFromDisk(): Promise<void> {
   reconcileInBackground()
 }
 
-export async function initModsWatcher(onMessage: (message: ModChangedMessage) => void): Promise<void> {
+export async function initModsWatcher(
+  onMessage: (message: ModChangedMessage) => void
+): Promise<void> {
   diffListener = onMessage
   // The Store is already loaded (module import) when the main process awaits
   // this before creating the window; validation runs here, reconcile stays

@@ -12,7 +12,7 @@ import {
   deferred,
   makeSetupFixture,
   renderWithProviders,
-  stubRendererWindow,
+  stubRendererWindow
 } from '../../test-utils'
 import type { ModsSnapshot } from '../../../../types/mods'
 import { invalidateSetupsSnapshot } from '../../hooks/useSetups'
@@ -38,7 +38,7 @@ describe('SetupsCard modals', () => {
         <MessageModalProvider>
           <SetupsCard />
         </MessageModalProvider>
-      </MemoryRouter>,
+      </MemoryRouter>
     )
   }
 
@@ -47,9 +47,7 @@ describe('SetupsCard modals', () => {
   // Without it an unconfigured path surfaces as '' (the post-reset case).
   function seedModsPath(path: string): void {
     const get = (key: string): Promise<string | null> =>
-      Promise.resolve(
-        key === STORE_KEYS.mods || key === AUTO_STORE_KEYS.mods ? path : null
-      )
+      Promise.resolve(key === STORE_KEYS.mods || key === AUTO_STORE_KEYS.mods ? path : null)
     window.store.get = vi.fn(get) as typeof window.store.get
   }
 
@@ -65,7 +63,9 @@ describe('SetupsCard modals', () => {
     fireEvent.click(createButton)
     await screen.findByRole('dialog')
 
-    fireEvent.keyDown(document.querySelector('[data-slot="message-modal-overlay"]')!, { key: 'Escape' })
+    fireEvent.keyDown(document.querySelector('[data-slot="message-modal-overlay"]')!, {
+      key: 'Escape'
+    })
     fireEvent.keyDown(document, { key: 'Escape' })
 
     expect(screen.getByRole('dialog')).toBeTruthy()
@@ -106,8 +106,8 @@ describe('SetupsCard modals', () => {
   it('shows the shared modal and not the editor when mods are invalid', async () => {
     const { setupsList } = stubRendererWindow()
     setupsList.mockReturnValue(Promise.resolve([]))
-    window.mods.getAll = vi.fn(
-      (): Promise<ModsSnapshot> => Promise.resolve({ valid: false, ready: true, mods: {} }),
+    window.mods.getAll = vi.fn((): Promise<ModsSnapshot> =>
+      Promise.resolve({ valid: false, ready: true, mods: {} })
     )
     seedModsPath('/mods')
     renderCardWithModal()
@@ -119,7 +119,7 @@ describe('SetupsCard modals', () => {
     const dialog = await screen.findByRole('alertdialog')
     expect(within(dialog).getByText('Mods folder not set')).toBeTruthy()
     expect(
-      within(dialog).getByText('Set a valid Mods Path in Settings to create setups.'),
+      within(dialog).getByText('Set a valid Mods Path in Settings to create setups.')
     ).toBeTruthy()
     expect(screen.queryByRole('dialog')).toBeNull()
   })
@@ -127,8 +127,8 @@ describe('SetupsCard modals', () => {
   it('shows the shared modal and not the editor after Reset leaves no Mods Path', async () => {
     const { setupsList } = stubRendererWindow()
     setupsList.mockReturnValue(Promise.resolve([]))
-    window.mods.getAll = vi.fn(
-      (): Promise<ModsSnapshot> => Promise.resolve({ valid: true, ready: true, mods: {} }),
+    window.mods.getAll = vi.fn((): Promise<ModsSnapshot> =>
+      Promise.resolve({ valid: true, ready: true, mods: {} })
     )
     renderCardWithModal()
 
@@ -175,8 +175,8 @@ describe('SetupsCard modals', () => {
   it('shows the shared modal and not the editor when editing with invalid mods', async () => {
     const { setupsList } = stubRendererWindow()
     setupsList.mockReturnValue(Promise.resolve([makeSetupFixture()]))
-    window.mods.getAll = vi.fn(
-      (): Promise<ModsSnapshot> => Promise.resolve({ valid: false, ready: true, mods: {} }),
+    window.mods.getAll = vi.fn((): Promise<ModsSnapshot> =>
+      Promise.resolve({ valid: false, ready: true, mods: {} })
     )
     seedModsPath('/mods')
     renderCardWithModal()
@@ -187,7 +187,7 @@ describe('SetupsCard modals', () => {
     const dialog = await screen.findByRole('alertdialog')
     expect(within(dialog).getByText('Mods folder not set')).toBeTruthy()
     expect(
-      within(dialog).getByText('Set a valid Mods Path in Settings to create setups.'),
+      within(dialog).getByText('Set a valid Mods Path in Settings to create setups.')
     ).toBeTruthy()
     expect(screen.queryByRole('dialog')).toBeNull()
   })

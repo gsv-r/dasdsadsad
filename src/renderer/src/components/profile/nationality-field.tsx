@@ -29,7 +29,8 @@ export default function NationalityField({
   const panelRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const selected = value === null ? null : (COUNTRIES.find((country) => country.code === value) ?? null)
+  const selected =
+    value === null ? null : (COUNTRIES.find((country) => country.code === value) ?? null)
   const visible = filterCountries(COUNTRIES, query)
 
   function closePanel(): void {

@@ -45,9 +45,9 @@ describe('practice paint lists', () => {
   it('accepts arrays, missing and null like the main process already does', () => {
     for (const paints of [['p1', 'p2'], [], undefined, null]) {
       expect(practiceSelectBikeArgs.safeParse({ bikeId: 'bikeA', paints }).success).toBe(true)
-      expect(practiceSelectTrackArgs.safeParse({ trackId: 'trackA', layouts: paints }).success).toBe(
-        true
-      )
+      expect(
+        practiceSelectTrackArgs.safeParse({ trackId: 'trackA', layouts: paints }).success
+      ).toBe(true)
       expect(practiceSelectHelmetArgs.safeParse({ helmetId: 'h', paints }).success).toBe(true)
       expect(practiceSelectRiderArgs.safeParse({ suitId: 's', paints }).success).toBe(true)
     }

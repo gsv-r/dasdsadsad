@@ -213,84 +213,90 @@ export default function Profile(): React.JSX.Element {
   return (
     <Layout>
       <div className="scroll flex min-h-0 min-w-0 flex-1 flex-col gap-4 overflow-y-auto">
-      <Card className="shrink-0 border-dashed border-border py-4">
-        <CardHeader className="pb-0">
-          <CardTitle className="text-sm font-medium tracking-wide uppercase">Profile</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-4">
-            {/* Confirmed load error only: the inputs show the active
+        <Card className="shrink-0 border-dashed border-border py-4">
+          <CardHeader className="pb-0">
+            <CardTitle className="text-sm font-medium tracking-wide uppercase">Profile</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-4">
+              {/* Confirmed load error only: the inputs show the active
                 profile. No reserved height for user-action save error — it
                 appears inline without shift. */}
-            <div aria-live="polite" className="empty:hidden">
-              {loadError ? (
-                <p className="text-xs leading-relaxed text-muted-foreground select-text">{loadError}</p>
-              ) : null}
-              {!loadError && saveError ? (
-                <p className="text-xs leading-relaxed text-destructive select-text">{saveError}</p>
-              ) : null}
-            </div>
-            {/* Static guidance, always visible: true with or without a profile. */}
-            <p className="text-xs leading-relaxed text-muted-foreground select-text">
-              The active profile is read from Profile Path in Settings.
-            </p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex w-full flex-col gap-1.5">
-                <Label htmlFor="profile-name">Name</Label>
-                <Input
-                  id="profile-name"
-                  value={name}
-                  placeholder="Profile name"
-                  spellCheck={false}
-                  autoComplete="off"
-                  disabled={saving || !fieldsEnabled}
-                  aria-invalid={saveErrorField(saveError) === 'name' ? true : undefined}
-                  onChange={(e) => handleNameChange(e.target.value)}
-                  className={cn(saveErrorField(saveError) === 'name' && 'border-destructive')}
-                />
+              <div aria-live="polite" className="empty:hidden">
+                {loadError ? (
+                  <p className="text-xs leading-relaxed text-muted-foreground select-text">
+                    {loadError}
+                  </p>
+                ) : null}
+                {!loadError && saveError ? (
+                  <p className="text-xs leading-relaxed text-destructive select-text">
+                    {saveError}
+                  </p>
+                ) : null}
               </div>
-              <NationalityField
-                value={nationality}
-                disabled={saving || !fieldsEnabled}
-                onChange={handleNationalityChange}
-              />
-              <div className="flex w-full flex-col gap-1.5">
-                <Label htmlFor="profile-race-number">Race number</Label>
-                <Input
-                  id="profile-race-number"
-                  value={raceNumber}
-                  placeholder="Race number"
-                  spellCheck={false}
-                  autoComplete="off"
-                  inputMode="numeric"
+              {/* Static guidance, always visible: true with or without a profile. */}
+              <p className="text-xs leading-relaxed text-muted-foreground select-text">
+                The active profile is read from Profile Path in Settings.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex w-full flex-col gap-1.5">
+                  <Label htmlFor="profile-name">Name</Label>
+                  <Input
+                    id="profile-name"
+                    value={name}
+                    placeholder="Profile name"
+                    spellCheck={false}
+                    autoComplete="off"
+                    disabled={saving || !fieldsEnabled}
+                    aria-invalid={saveErrorField(saveError) === 'name' ? true : undefined}
+                    onChange={(e) => handleNameChange(e.target.value)}
+                    className={cn(saveErrorField(saveError) === 'name' && 'border-destructive')}
+                  />
+                </div>
+                <NationalityField
+                  value={nationality}
                   disabled={saving || !fieldsEnabled}
-                  aria-invalid={saveErrorField(saveError) === 'raceNumber' ? true : undefined}
-                  onChange={(e) => handleRaceChange(e.target.value)}
-                  className={cn(saveErrorField(saveError) === 'raceNumber' && 'border-destructive')}
+                  onChange={handleNationalityChange}
                 />
+                <div className="flex w-full flex-col gap-1.5">
+                  <Label htmlFor="profile-race-number">Race number</Label>
+                  <Input
+                    id="profile-race-number"
+                    value={raceNumber}
+                    placeholder="Race number"
+                    spellCheck={false}
+                    autoComplete="off"
+                    inputMode="numeric"
+                    disabled={saving || !fieldsEnabled}
+                    aria-invalid={saveErrorField(saveError) === 'raceNumber' ? true : undefined}
+                    onChange={(e) => handleRaceChange(e.target.value)}
+                    className={cn(
+                      saveErrorField(saveError) === 'raceNumber' && 'border-destructive'
+                    )}
+                  />
+                </div>
               </div>
-            </div>
-            {/* Save feedback shares the button row: the row height comes from
+              {/* Save feedback shares the button row: the row height comes from
                 the button, so a single-line message never moves layout. */}
-            <div className="flex items-center justify-start gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                disabled={!dirty || saving || !fieldsEnabled}
-                onClick={handleSave}
-                className="shrink-0 uppercase"
-              >
-                {saving ? 'saving' : 'save'}
-              </Button>
-              {!loadError && !saveError && saved ? (
-                <p className="text-xs leading-relaxed text-muted-foreground">Saved.</p>
-              ) : null}
+              <div className="flex items-center justify-start gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  disabled={!dirty || saving || !fieldsEnabled}
+                  onClick={handleSave}
+                  className="shrink-0 uppercase"
+                >
+                  {saving ? 'saving' : 'save'}
+                </Button>
+                {!loadError && !saveError && saved ? (
+                  <p className="text-xs leading-relaxed text-muted-foreground">Saved.</p>
+                ) : null}
+              </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-      <SetupsCard />
+          </CardContent>
+        </Card>
+        <SetupsCard />
       </div>
     </Layout>
   )

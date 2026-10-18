@@ -32,9 +32,7 @@ describe('resolveSyncedOption', () => {
   })
 
   it('unknown store value (mod removed) keeps a valid cache without touching the store', () => {
-    expect(
-      resolveSyncedOption('removed_style', 'Style 5', STYLES, 'modern', BASE_OPTION)
-    ).toEqual({
+    expect(resolveSyncedOption('removed_style', 'Style 5', STYLES, 'modern', BASE_OPTION)).toEqual({
       display: 'Style 5',
       notify: 'Style 5',
       cache: null
@@ -55,12 +53,10 @@ describe('resolveSyncedOption', () => {
   })
 
   it('base cache maps to base display', () => {
-    expect(resolveSyncedOption('removed_style', 'default', STYLES, 'modern', BASE_OPTION)).toEqual(
-      {
-        display: 'default',
-        notify: 'modern',
-        cache: null
-      }
-    )
+    expect(resolveSyncedOption('removed_style', 'default', STYLES, 'modern', BASE_OPTION)).toEqual({
+      display: 'default',
+      notify: 'modern',
+      cache: null
+    })
   })
 })

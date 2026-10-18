@@ -1,12 +1,7 @@
 // Renderer-to-main fire-and-forget channels. Only the window controls use
 // these; anything else is rejected so a compromised renderer cannot send
 // arbitrary channel names to the main process.
-export const SEND_CHANNELS = [
-  'minimize',
-  'close',
-  'window:maximize',
-  'window:reload'
-] as const
+export const SEND_CHANNELS = ['minimize', 'close', 'window:maximize', 'window:reload'] as const
 
 export type SendChannel = (typeof SEND_CHANNELS)[number]
 

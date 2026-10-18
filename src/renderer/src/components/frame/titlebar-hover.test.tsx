@@ -9,7 +9,7 @@ beforeEach(() => {
   Object.assign(window, {
     electron: { ipcRenderer: { send: vi.fn() } },
     api: { isMaximized: vi.fn((): Promise<boolean> => Promise.resolve(false)) },
-    windowState: { onChange: vi.fn((): (() => void) => () => undefined) },
+    windowState: { onChange: vi.fn((): (() => void) => () => undefined) }
   })
 })
 
@@ -21,10 +21,12 @@ describe('TitleBar hover', () => {
   it('all buttons use kd-surface-hover, close uses window-close', () => {
     render(
       <MemoryRouter>
-        <MessageModalContext.Provider value={{ showMessage: () => undefined, closeMessage: () => undefined }}>
+        <MessageModalContext.Provider
+          value={{ showMessage: () => undefined, closeMessage: () => undefined }}
+        >
           <TitleBar />
         </MessageModalContext.Provider>
-      </MemoryRouter>,
+      </MemoryRouter>
     )
 
     const buttons = screen.getAllByRole('button')

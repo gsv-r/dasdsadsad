@@ -24,7 +24,9 @@ function Select({
   )
 }
 
-function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>): React.JSX.Element {
+function SelectValue({
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Value>): React.JSX.Element {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 

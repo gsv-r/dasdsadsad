@@ -18,13 +18,7 @@ vi.mock('electron', () => ({
   default: { app: mocks.appMock, ipcMain: mocks.ipcMainMock }
 }))
 
-import {
-  enrichBike,
-  enrichHelmet,
-  enrichRider,
-  enrichRidingStyle,
-  enrichTrack
-} from './scan.js'
+import { enrichBike, enrichHelmet, enrichRider, enrichRidingStyle, enrichTrack } from './scan.js'
 
 async function makeModDir(): Promise<{ dir: string; cleanup: () => Promise<void> }> {
   const dir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'knee-down-scan-'))

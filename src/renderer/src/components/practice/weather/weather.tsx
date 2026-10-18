@@ -13,7 +13,13 @@ import {
 import { WEATHER_RANGES } from '../../../../../types/practice'
 import { useWeatherSettings } from './use-weather-settings'
 
-function Field({ full = false, children }: { full?: boolean; children: ReactNode }): React.JSX.Element {
+function Field({
+  full = false,
+  children
+}: {
+  full?: boolean
+  children: ReactNode
+}): React.JSX.Element {
   return <div className={full ? 'col-span-2 min-w-0' : 'min-w-0'}>{children}</div>
 }
 
@@ -35,7 +41,11 @@ function RowSelect({
   return (
     <div className="flex w-full flex-col gap-1.5">
       <Label htmlFor={inputId}>{label}</Label>
-      <Select value={String(value)} disabled={disabled} onValueChange={(next) => onChange(Number(next))}>
+      <Select
+        value={String(value)}
+        disabled={disabled}
+        onValueChange={(next) => onChange(Number(next))}
+      >
         <SelectTrigger id={inputId} className="w-full uppercase">
           <SelectValue placeholder={label} />
         </SelectTrigger>

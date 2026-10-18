@@ -651,9 +651,7 @@ describe('tolerant setups reads', () => {
       expect(listSetups()).toEqual([])
       expect(listSetups()).toEqual([])
       expect(errorSpy).toHaveBeenCalledTimes(1)
-      expect(errorSpy).toHaveBeenCalledWith(
-        'Setups store is not a list; treating it as empty.'
-      )
+      expect(errorSpy).toHaveBeenCalledWith('Setups store is not a list; treating it as empty.')
       expect(createSetup(makeSetup({ name: 'First' }))).toEqual({ ok: true })
       expect(listSetups().map((s) => s.name)).toEqual(['First'])
     } finally {
@@ -670,9 +668,7 @@ describe('tolerant setups reads', () => {
       const { listSetups } = await import('./setups.js')
       expect(listSetups()).toEqual([])
       expect(errorSpy).toHaveBeenCalledTimes(1)
-      expect(errorSpy).toHaveBeenCalledWith(
-        'Setups store is unreadable; treating it as empty.'
-      )
+      expect(errorSpy).toHaveBeenCalledWith('Setups store is unreadable; treating it as empty.')
     } finally {
       errorSpy.mockRestore()
     }
@@ -691,7 +687,13 @@ describe('setups rewrite preservation', () => {
     suit_paint: '',
     riding_style: 'modern'
   }
-  const junk: unknown[] = ['ab', 123, null, { name: 'No Id' }, { id: 'bad-fields', name: 'Bad', bike_id: 123 }]
+  const junk: unknown[] = [
+    'ab',
+    123,
+    null,
+    { name: 'No Id' },
+    { id: 'bad-fields', name: 'Bad', bike_id: 123 }
+  ]
 
   function seedMixed(): unknown[] {
     const raw = [validA, ...junk]

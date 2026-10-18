@@ -153,7 +153,10 @@ export function useRiderGear(refreshKey: number = 0): {
     () => paintsOf(helmetsResolved, activeHelmet),
     [helmetsResolved, activeHelmet]
   )
-  const suitPaints = useMemo(() => paintsOf(ridersResolved, activeSuit), [ridersResolved, activeSuit])
+  const suitPaints = useMemo(
+    () => paintsOf(ridersResolved, activeSuit),
+    [ridersResolved, activeSuit]
+  )
 
   return {
     helmets,

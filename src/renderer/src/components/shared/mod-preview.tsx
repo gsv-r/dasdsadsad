@@ -69,7 +69,8 @@ export default function ModPreview({
     </>
   )
 
-  const frameClass = 'relative block aspect-[4/3] max-h-full w-full overflow-hidden transition-opacity hover:opacity-90'
+  const frameClass =
+    'relative block aspect-[4/3] max-h-full w-full overflow-hidden transition-opacity hover:opacity-90'
 
   return (
     <Card className={cn('gap-0 overflow-hidden border-border bg-card py-0', className)}>

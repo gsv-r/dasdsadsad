@@ -157,7 +157,13 @@ describe('invalid mods path at boot', () => {
         valid: true,
         ready: true,
         modsPath,
-        mods: { bikes: [bikeEntry('bikeA', 'Bike A')], tracks: [], riders: [], helmets: [], ridingStyles: [] }
+        mods: {
+          bikes: [bikeEntry('bikeA', 'Bike A')],
+          tracks: [],
+          riders: [],
+          helmets: [],
+          ridingStyles: []
+        }
       }
       pathsState.modsPath = null
       const watcher = await freshWatcher()
@@ -188,7 +194,13 @@ describe('persisted modsPath mismatch at boot', () => {
         valid: true,
         ready: true,
         modsPath: dirA,
-        mods: { bikes: [bikeEntry('oldBike', 'Old Bike')], tracks: [], riders: [], helmets: [], ridingStyles: [] }
+        mods: {
+          bikes: [bikeEntry('oldBike', 'Old Bike')],
+          tracks: [],
+          riders: [],
+          helmets: [],
+          ridingStyles: []
+        }
       }
       pathsState.modsPath = dirB
       const watcher = await freshWatcher()
@@ -243,9 +255,9 @@ describe('regression: valid path without cache', () => {
       await watcher.initModsWatcher((message) => messages.push(message))
 
       await vi.waitFor(() => {
-        expect(
-          messages.some((message) => !isDiff(message) && message.valid && message.ready)
-        ).toBe(true)
+        expect(messages.some((message) => !isDiff(message) && message.valid && message.ready)).toBe(
+          true
+        )
       })
       expect(watcher.getModsSnapshot()).toMatchObject({ valid: true, ready: true })
       await watcher.stopModsWatcher()
@@ -265,7 +277,13 @@ describe('regression: foreign-format persisted modsPath', () => {
         valid: true,
         ready: true,
         modsPath: modsPath + path.sep,
-        mods: { bikes: [bikeEntry('bikeA', 'Bike A')], tracks: [], riders: [], helmets: [], ridingStyles: [] }
+        mods: {
+          bikes: [bikeEntry('bikeA', 'Bike A')],
+          tracks: [],
+          riders: [],
+          helmets: [],
+          ridingStyles: []
+        }
       }
       pathsState.modsPath = modsPath
       const watcher = await freshWatcher()
@@ -452,13 +470,19 @@ describe('resolveEventTarget', () => {
     const watcher = await freshWatcher()
     const modsPath = path.join('C:', 'mods')
     expect(
-      watcher.resolveEventTarget(modsPath, path.join(modsPath, 'bikes', 'NovaMoto', 'metadata.json'))
+      watcher.resolveEventTarget(
+        modsPath,
+        path.join(modsPath, 'bikes', 'NovaMoto', 'metadata.json')
+      )
     ).toEqual({ type: 'bikes', id: 'NovaMoto' })
     expect(
       watcher.resolveEventTarget(modsPath, path.join(modsPath, 'bikes', 'NovaMoto', 'preview.png'))
     ).toEqual({ type: 'bikes', id: 'NovaMoto' })
     expect(
-      watcher.resolveEventTarget(modsPath, path.join(modsPath, 'tracks', 'Adriatic', 'layoutA', 'info.txt'))
+      watcher.resolveEventTarget(
+        modsPath,
+        path.join(modsPath, 'tracks', 'Adriatic', 'layoutA', 'info.txt')
+      )
     ).toEqual({ type: 'tracks', id: 'Adriatic' })
   })
 
@@ -466,19 +490,34 @@ describe('resolveEventTarget', () => {
     const watcher = await freshWatcher()
     const modsPath = path.join('C:', 'mods')
     expect(
-      watcher.resolveEventTarget(modsPath, path.join(modsPath, 'rider', 'riders', 'Joao', 'metadata.json'))
+      watcher.resolveEventTarget(
+        modsPath,
+        path.join(modsPath, 'rider', 'riders', 'Joao', 'metadata.json')
+      )
     ).toEqual({ type: 'riders', id: 'Joao' })
     expect(
-      watcher.resolveEventTarget(modsPath, path.join(modsPath, 'rider', 'riders', 'Joao', 'paints', 'paint1.png'))
+      watcher.resolveEventTarget(
+        modsPath,
+        path.join(modsPath, 'rider', 'riders', 'Joao', 'paints', 'paint1.png')
+      )
     ).toEqual({ type: 'riders', id: 'Joao' })
     expect(
-      watcher.resolveEventTarget(modsPath, path.join(modsPath, 'rider', 'helmets', 'H1', 'preview.png'))
+      watcher.resolveEventTarget(
+        modsPath,
+        path.join(modsPath, 'rider', 'helmets', 'H1', 'preview.png')
+      )
     ).toEqual({ type: 'helmets', id: 'H1' })
     expect(
-      watcher.resolveEventTarget(modsPath, path.join(modsPath, 'rider', 'helmets', 'H1', 'metadata.json'))
+      watcher.resolveEventTarget(
+        modsPath,
+        path.join(modsPath, 'rider', 'helmets', 'H1', 'metadata.json')
+      )
     ).toEqual({ type: 'helmets', id: 'H1' })
     expect(
-      watcher.resolveEventTarget(modsPath, path.join(modsPath, 'rider', 'animations', 'StyleA', 'metadata.json'))
+      watcher.resolveEventTarget(
+        modsPath,
+        path.join(modsPath, 'rider', 'animations', 'StyleA', 'metadata.json')
+      )
     ).toEqual({ type: 'ridingStyles', id: 'StyleA' })
   })
 })
@@ -572,7 +611,9 @@ describe('refreshByFocus gate', () => {
       const messages: ModChangedMessage[] = []
       await watcher.initModsWatcher((message) => messages.push(message))
       await vi.waitFor(() => {
-        expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toEqual(['bikeNoMeta'])
+        expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toEqual([
+          'bikeNoMeta'
+        ])
       })
       await drainLeakedPersists(watcher)
 
@@ -618,7 +659,9 @@ describe('refreshByFocus gate', () => {
       const messages: ModChangedMessage[] = []
       await watcher.initModsWatcher((message) => messages.push(message))
       await vi.waitFor(() => {
-        expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toEqual(['bikeNoMeta'])
+        expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toEqual([
+          'bikeNoMeta'
+        ])
       })
       await drainLeakedPersists(watcher)
       const modDir = path.join(modsPath, 'bikes', 'bikeNoMeta')
@@ -921,7 +964,9 @@ describe('scanOne retry', () => {
         await Promise.resolve()
 
         await vi.waitFor(() => {
-          expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toContain('bikePending')
+          expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toContain(
+            'bikePending'
+          )
         })
         await watcher.stopModsWatcher()
       } finally {
@@ -972,7 +1017,9 @@ describe('scanOne retry', () => {
         await Promise.resolve()
 
         await vi.waitFor(() => {
-          expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toContain('bikePending')
+          expect((watcher.getModsSnapshot().mods.bikes ?? []).map((b) => b.id)).toContain(
+            'bikePending'
+          )
         })
         await watcher.stopModsWatcher()
       } finally {
@@ -1200,7 +1247,9 @@ describe('scanOne retry', () => {
         // and never schedules a retry.
         expect(watcher.getModsSnapshot()).toEqual({ valid: false, ready: false, mods: {} })
         expect(scanOneCallsFor('bikeLate')).toBe(1)
-        expect(messages.some((message) => isDiff(message) && message.upserted.length > 0)).toBe(false)
+        expect(messages.some((message) => isDiff(message) && message.upserted.length > 0)).toBe(
+          false
+        )
         await watcher.stopModsWatcher()
       } finally {
         fs.rmSync(modsPath, { recursive: true, force: true })
@@ -1269,7 +1318,10 @@ describe('event debounce', () => {
         scanState.scanOneCalls.length = 0
 
         const modDir = path.join(modsPath, 'bikes', 'NovaMoto')
-        const internalPaths: string[] = [path.join(modDir, 'metadata.json'), path.join(modDir, 'preview.png')]
+        const internalPaths: string[] = [
+          path.join(modDir, 'metadata.json'),
+          path.join(modDir, 'preview.png')
+        ]
         for (let i = 0; i < 198; i += 1) {
           internalPaths.push(path.join(modDir, 'paints', `paint${i}.png`))
         }
@@ -1316,7 +1368,10 @@ describe('event debounce', () => {
         scanState.scanOneCalls.length = 0
 
         for (let i = 0; i < 50; i += 1) {
-          chokidarState.allHandler?.('change', path.join(modsPath, 'bikes', 'NovaMoto', `a${i}.png`))
+          chokidarState.allHandler?.(
+            'change',
+            path.join(modsPath, 'bikes', 'NovaMoto', `a${i}.png`)
+          )
           chokidarState.allHandler?.('change', path.join(modsPath, 'bikes', 'Vespa', `b${i}.png`))
         }
         vi.advanceTimersByTime(300)

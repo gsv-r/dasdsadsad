@@ -140,7 +140,8 @@ export default function OptionSelect({
       }
       onChange?.(prev === BASE_OPTION ? defaultValue : prev)
     }
-    const persist = save ?? ((v: string) => window.store.set(storeKey, v).then(() => window.practice.sync()))
+    const persist =
+      save ?? ((v: string) => window.store.set(storeKey, v).then(() => window.practice.sync()))
     Promise.resolve()
       .then(() => persist(mapped))
       .then((result) => {
@@ -166,7 +167,11 @@ export default function OptionSelect({
   return (
     <div className="flex w-full flex-col gap-1.5">
       <Label htmlFor={inputId}>{label}</Label>
-      <Select value={displayValue} onValueChange={handleChange} disabled={visibleOptions.length === 0 || disabled}>
+      <Select
+        value={displayValue}
+        onValueChange={handleChange}
+        disabled={visibleOptions.length === 0 || disabled}
+      >
         <SelectTrigger id={inputId} className="w-full uppercase">
           <SelectValue placeholder={baseLabel} />
         </SelectTrigger>

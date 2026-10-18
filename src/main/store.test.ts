@@ -74,7 +74,9 @@ describe('store boot with an unreadable config', () => {
     const { store, DEFAULT_PRACTICE_STATE } = await freshStore()
     try {
       expect(
-        fs.readdirSync(mocks.dirs.userData).filter((name) => name.startsWith('config.json.corrupt-'))
+        fs
+          .readdirSync(mocks.dirs.userData)
+          .filter((name) => name.startsWith('config.json.corrupt-'))
       ).toHaveLength(1)
       expect(store.get('practice.bike.bike_id')).toBe(DEFAULT_PRACTICE_STATE.bike.bike_id)
       expect(errorSpy).toHaveBeenCalledTimes(1)
@@ -90,7 +92,9 @@ describe('store boot with an unreadable config', () => {
       const { store, DEFAULT_PRACTICE_STATE } = await freshStore()
       expect(store.get('practice.bike.bike_id')).toBe(DEFAULT_PRACTICE_STATE.bike.bike_id)
       expect(
-        fs.readdirSync(mocks.dirs.userData).filter((name) => name.startsWith('config.json.corrupt-'))
+        fs
+          .readdirSync(mocks.dirs.userData)
+          .filter((name) => name.startsWith('config.json.corrupt-'))
       ).toHaveLength(0)
     }
   )

@@ -1,44 +1,44 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @font-face {
-  font-family: "Orbitron";
+  font-family: 'Orbitron';
   font-weight: 800;
   font-style: normal;
   font-display: block;
-  src: url("./fonts/Orbitron-800.woff2") format("woff2");
+  src: url('./fonts/Orbitron-800.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 400;
   font-style: normal;
   font-display: block;
-  src: url("./fonts/montserrat/Montserrat-400.woff2") format("woff2");
+  src: url('./fonts/montserrat/Montserrat-400.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 500;
   font-style: normal;
   font-display: block;
-  src: url("./fonts/montserrat/Montserrat-500.woff2") format("woff2");
+  src: url('./fonts/montserrat/Montserrat-500.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 600;
   font-style: normal;
   font-display: block;
-  src: url("./fonts/montserrat/Montserrat-600.woff2") format("woff2");
+  src: url('./fonts/montserrat/Montserrat-600.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: "Montserrat";
+  font-family: 'Montserrat';
   font-weight: 800;
   font-style: normal;
   font-display: block;
-  src: url("./fonts/montserrat/Montserrat-800.woff2") format("woff2");
+  src: url('./fonts/montserrat/Montserrat-800.woff2') format('woff2');
 }
 
 @custom-variant dark (&:is(.dark, *));
@@ -86,28 +86,28 @@
   --sidebar-ring: oklch(0.556 0 0);
 
   /* KNEE DOWN design system tokens (docs/knee-down-design-system.md §4) */
-  --kd-red: #FF453A;
-  --kd-red-hover: #FF6259;
-  --kd-lime: #C5FF42;
+  --kd-red: #ff453a;
+  --kd-red-hover: #ff6259;
+  --kd-lime: #c5ff42;
   --kd-bg: #101113;
-  --kd-surface: #191A1D;
+  --kd-surface: #191a1d;
   --kd-surface-alt: #202226;
-  --kd-surface-hover: #2A2D32;
+  --kd-surface-hover: #2a2d32;
   --kd-browser-theme: #111214;
-  --kd-text: #F2F2EE;
-  --kd-text-muted: #A7A9AF;
-  --kd-text-secondary: #C1C2C6;
-  --kd-nav-text: #D1D2D4;
-  --kd-text-subtle: #51535A;
-  --kd-footer-text: #777A80;
-  --kd-border: #34363B;
-  --kd-border-panel: #3B3D42;
-  --kd-border-strong: #45474C;
-  --kd-border-button: #62646A;
+  --kd-text: #f2f2ee;
+  --kd-text-muted: #a7a9af;
+  --kd-text-secondary: #c1c2c6;
+  --kd-nav-text: #d1d2d4;
+  --kd-text-subtle: #51535a;
+  --kd-footer-text: #777a80;
+  --kd-border: #34363b;
+  --kd-border-panel: #3b3d42;
+  --kd-border-strong: #45474c;
+  --kd-border-button: #62646a;
   --setup-row-h: 3.75rem;
   --setup-gap: 0.5rem;
-  --kd-font-brand: "Orbitron", sans-serif;
-  --kd-font-ui: "Montserrat", sans-serif;
+  --kd-font-brand: 'Orbitron', sans-serif;
+  --kd-font-ui: 'Montserrat', sans-serif;
   --kd-primary-foreground: #111111;
 }
 
@@ -233,8 +233,12 @@
   }
 
   @keyframes bounce {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-4px); }
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-4px);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

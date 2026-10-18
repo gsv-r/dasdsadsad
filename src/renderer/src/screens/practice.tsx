@@ -10,7 +10,12 @@ import { useMods } from '../hooks/useMods'
 import { useActiveSetup } from '../hooks/useActiveSetup'
 import SetupSelect from '../components/setups/setup-select'
 import { readBikeSnapshot, readTrackSnapshot, writeSetupFieldCaches } from '../lib/practice-cache'
-import { readCachedString, readJsonSnapshot, writeCachedString, writeJsonSnapshot } from '../lib/cache-utils'
+import {
+  readCachedString,
+  readJsonSnapshot,
+  writeCachedString,
+  writeJsonSnapshot
+} from '../lib/cache-utils'
 import { ensurePracticeValidated } from '../lib/practice-validate'
 import { isBaseSelection } from '../lib/utils'
 import type { AppliedSetupValues } from '../../../types/setups'
@@ -72,9 +77,13 @@ function usePracticeSetup(refreshKey: number = 0): { bike: Bike | null; track: T
       .then(([practiceBikeId, practiceTrackId]) => {
         if (cancelled) return
         const nextBikeId =
-          typeof practiceBikeId === 'string' && !isBaseSelection(practiceBikeId) ? practiceBikeId : null
+          typeof practiceBikeId === 'string' && !isBaseSelection(practiceBikeId)
+            ? practiceBikeId
+            : null
         const nextTrackId =
-          typeof practiceTrackId === 'string' && !isBaseSelection(practiceTrackId) ? practiceTrackId : null
+          typeof practiceTrackId === 'string' && !isBaseSelection(practiceTrackId)
+            ? practiceTrackId
+            : null
         if (nextBikeId) {
           writeCachedString('practice.bike.bike_id', nextBikeId)
           setStoredBikeId((prev) => (prev === nextBikeId ? prev : nextBikeId))
@@ -144,7 +153,12 @@ function usePracticeSetup(refreshKey: number = 0): { bike: Bike | null; track: T
       } as unknown as Track
     }
     if (storedTrackId) {
-      return { id: storedTrackId, name: storedTrackId, preview: null, layouts: [] } as unknown as Track
+      return {
+        id: storedTrackId,
+        name: storedTrackId,
+        preview: null,
+        layouts: []
+      } as unknown as Track
     }
     return null
   }, [storedTrackId, tracks, cachedTrackSnapshot])

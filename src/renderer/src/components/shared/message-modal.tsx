@@ -81,7 +81,12 @@ export default function MessageModal({
                 >
                   cancel
                 </Button>
-                <Button type="button" variant={confirmVariant} onClick={onConfirm} className="shrink-0 uppercase">
+                <Button
+                  type="button"
+                  variant={confirmVariant}
+                  onClick={onConfirm}
+                  className="shrink-0 uppercase"
+                >
                   {confirmLabel}
                 </Button>
               </>

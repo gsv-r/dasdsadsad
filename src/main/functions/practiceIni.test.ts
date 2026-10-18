@@ -113,24 +113,25 @@ afterAll(() => {
 })
 
 describe('practice.ini with mistyped settings', () => {
-  it.each(['ab', 123])('falls back to defaults without garbage lines for settings %s', async (settings) => {
-    seedPractice(settings)
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-    const { writePracticeIni } = await freshPracticeIni()
-    try {
-      const gameDir = freshGameDir()
-      writePracticeIni(gameDir)
-      const ini = readIni(gameDir)
-      expect(ini).not.toMatch(/^\d+ = /m)
-      expect(ini).toContain('temperature = 25')
-      expect(ini).toContain('weather_conditions = 0')
-      expect(errorSpy).toHaveBeenCalledWith(
-        expect.stringContaining('practice.settings')
-      )
-    } finally {
-      errorSpy.mockRestore()
+  it.each(['ab', 123])(
+    'falls back to defaults without garbage lines for settings %s',
+    async (settings) => {
+      seedPractice(settings)
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+      const { writePracticeIni } = await freshPracticeIni()
+      try {
+        const gameDir = freshGameDir()
+        writePracticeIni(gameDir)
+        const ini = readIni(gameDir)
+        expect(ini).not.toMatch(/^\d+ = /m)
+        expect(ini).toContain('temperature = 25')
+        expect(ini).toContain('weather_conditions = 0')
+        expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining('practice.settings'))
+      } finally {
+        errorSpy.mockRestore()
+      }
     }
-  })
+  )
 
   it('falls back to defaults silently for null settings', async () => {
     seedPractice(null)
@@ -320,21 +321,24 @@ describe('practice.ini with mistyped settings', () => {
 })
 
 describe('launch gate stays authoritative on mistyped settings', () => {
-  it.each(['ab', 123])('still emits PRACTICE_SETTINGS_INVALID for settings %s', async (settings) => {
-    seedPractice(settings)
-    const { validateApp } = await freshValidate()
-    const issues = validateApp().issues.filter(
-      (issue) => issue.code === 'PRACTICE_SETTINGS_INVALID'
-    )
-    expect(issues).toEqual([
-      {
-        code: 'PRACTICE_SETTINGS_INVALID',
-        title: 'Practice settings invalid',
-        message:
-          'Practice weather settings are out of range. Check Conditions (clear/cloudy/rainy), Temperature (10-38°C), Wind direction, Wind speed and Track conditions in Practice.'
-      }
-    ])
-  })
+  it.each(['ab', 123])(
+    'still emits PRACTICE_SETTINGS_INVALID for settings %s',
+    async (settings) => {
+      seedPractice(settings)
+      const { validateApp } = await freshValidate()
+      const issues = validateApp().issues.filter(
+        (issue) => issue.code === 'PRACTICE_SETTINGS_INVALID'
+      )
+      expect(issues).toEqual([
+        {
+          code: 'PRACTICE_SETTINGS_INVALID',
+          title: 'Practice settings invalid',
+          message:
+            'Practice weather settings are out of range. Check Conditions (clear/cloudy/rainy), Temperature (10-38°C), Wind direction, Wind speed and Track conditions in Practice.'
+        }
+      ])
+    }
+  )
 
   it('emits no weather issue for null settings, like the untouched guard always did', async () => {
     seedPractice(null)

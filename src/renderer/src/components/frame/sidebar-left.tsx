@@ -19,7 +19,17 @@ const ITEM_ACTIVE_CLASSES = 'text-ring'
 const SECTION_CLASSES =
   'px-4 text-[10px] font-medium tracking-widest text-muted-foreground/70 uppercase'
 
-function SidebarLink({ to, label, icon: Icon, end }: { to: string; label: string; icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; end?: boolean }): React.JSX.Element {
+function SidebarLink({
+  to,
+  label,
+  icon: Icon,
+  end
+}: {
+  to: string
+  label: string
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  end?: boolean
+}): React.JSX.Element {
   return (
     <NavLink
       to={to}
@@ -78,7 +88,10 @@ export default function SidebarLeft(): React.JSX.Element {
         </button>
       </div>
 
-      <nav aria-label="Secondary" className="mb-2 flex flex-col gap-1 border-t border-sidebar-border pt-2">
+      <nav
+        aria-label="Secondary"
+        className="mb-2 flex flex-col gap-1 border-t border-sidebar-border pt-2"
+      >
         <SidebarLink to="/settings" label="settings" icon={IconSettings} />
         <div className="flex items-center justify-between px-3 pt-1">
           <p className="text-[10px] font-medium tracking-widest text-muted-foreground/70">

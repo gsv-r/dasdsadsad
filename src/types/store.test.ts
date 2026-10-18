@@ -42,7 +42,16 @@ describe('store read allowlist', () => {
     for (const key of STORE_READ_KEYS) {
       expect(isStoreReadKey(key)).toBe(true)
     }
-    for (const key of ['paths', 'pathsAuto', 'modsCache', 'setups', 'setup', 'practice', 'nope', '']) {
+    for (const key of [
+      'paths',
+      'pathsAuto',
+      'modsCache',
+      'setups',
+      'setup',
+      'practice',
+      'nope',
+      ''
+    ]) {
       expect(isStoreReadKey(key)).toBe(false)
     }
     for (const key of [123, null, undefined, {}, []]) {
@@ -139,9 +148,9 @@ describe('store write value schemas', () => {
       'practice.settings.track_conditions': 0
     } as const
     for (const [key, value] of Object.entries(byStoreField)) {
-      expect(
-        STORE_WRITE_SCHEMAS[key as keyof typeof byStoreField].safeParse(value).success
-      ).toBe(true)
+      expect(STORE_WRITE_SCHEMAS[key as keyof typeof byStoreField].safeParse(value).success).toBe(
+        true
+      )
     }
   })
 })

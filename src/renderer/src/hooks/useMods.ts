@@ -172,10 +172,8 @@ export function invalidateModsSnapshot(): void {
 // Fixed guidance text for bikes/tracks cards: always visible, never changes
 // based on state. The invalid warning is shown conditionally in a reserved
 // slot via aria-live.
-export const BIKES_FIXED_MESSAGE =
-  'Bikes are read from the Mods Path in Settings.'
-export const TRACKS_FIXED_MESSAGE =
-  'Tracks are read from the Mods Path in Settings.'
+export const BIKES_FIXED_MESSAGE = 'Bikes are read from the Mods Path in Settings.'
+export const TRACKS_FIXED_MESSAGE = 'Tracks are read from the Mods Path in Settings.'
 
 function useModsCache(): { snapshot: ModsSnapshot | null; isLoading: boolean } {
   const current = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)

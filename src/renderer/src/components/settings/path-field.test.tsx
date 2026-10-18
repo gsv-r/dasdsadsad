@@ -54,7 +54,9 @@ describe('PathField error slot', () => {
 
   it('shows the saved-path hint when invalid and no error', () => {
     renderField({ invalid: true })
-    expect(screen.getByText('The saved path is invalid. Fix it above, or use reset / auto detect.')).toBeTruthy()
+    expect(
+      screen.getByText('The saved path is invalid. Fix it above, or use reset / auto detect.')
+    ).toBeTruthy()
   })
 
   it('error takes precedence over invalid hint', () => {
@@ -83,7 +85,9 @@ describe('PathField manual badge', () => {
     const badge = screen.getByText('manual')
     expect(badge.className).toContain('text-primary')
     expect(badge.className).toContain('border-primary')
-    expect(screen.getByText('The saved path is invalid. Fix it above, or use reset / auto detect.')).toBeTruthy()
+    expect(
+      screen.getByText('The saved path is invalid. Fix it above, or use reset / auto detect.')
+    ).toBeTruthy()
   })
 
   it('manual with a commit error keeps the red class and shows the error text', () => {
