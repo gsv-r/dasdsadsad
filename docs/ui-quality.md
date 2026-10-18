@@ -72,3 +72,12 @@ Applies to every change that renders UI.
 - [ ] No delay/timeout/CSS-hiding to mask loading
 - [ ] No whole-file reformatting
 - [ ] Delivery lists changed files (`file:line`) and command results
+
+## 9. Component rules
+
+- Inputs: fixed placeholder independent of state; Zod schema from `src/types/*.ts` shared with main when both validate; errors after commit in a reserved slot with aria-invalid and aria-live; never validate pending data; search/filter inputs exempt; fields stay mounted.
+- Selects: fixed semantic placeholder; explicit "None" for optional values (always-valued numeric selects exempt); disabled while pending; setup editor renders "(missing)" for absent mods; selecting never changes surrounding labels.
+- Modals: shared message-modal for messages and confirmations; form modals may be custom but reuse the overlay + Card shell; modals close only via their buttons (close/cancel/confirm) — Esc never closes a modal; overlay click never closes form or destructive modals; irreversible actions need cancel/confirm; inline validation never uses a modal; alertdialog for confirmations, dialog for forms.
+- Buttons: fixed label; only in-progress text varies; disabled while running.
+- Error copy: new or touched strings go in `lib/*-errors.ts`.
+- Icons: `@tabler/icons-react` is the only icon library; all icons go through the shared `Icon` wrapper (`components/ui/icon.tsx`) with `strokeWidth={1.5}`, `currentColor`, `aria-hidden="true"` when decorative.

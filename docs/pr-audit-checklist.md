@@ -59,3 +59,7 @@ End every audit with:
 - Reconciled counts (`expected / found / passed / failed / skipped`, parameterized rows expanded).
 - Verdict per check (pass/fail) with `file:line` evidence.
 - Follow-ups as separate tasks; never as uncommitted edits.
+
+- **Command + raw output:** reports must include the command and the raw output.
+- **Isolation:** prefer separate worktree/branch for implementation; never mix audit output with uncommitted implementation changes.
+- **Measure before reverting:** before reverting, measure scope and mixed commits.

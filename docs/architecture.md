@@ -82,3 +82,12 @@ Persisted as `setups: PlayerSetup[]` + `practice.setup_id`. Reads are tolerant a
 ## Validation schemas
 
 Define shapes only in `src/types/*.ts` with Zod, enforce in `src/main/index.ts` handlers (`store:set` → `invalid-value`/`unknown-key`/`invalid-mods-folder`/`invalid-profile-folder`; `practice:*` → throw on invalid args; `setups:*`/`profiles:save` → typed `{ok:false,reason}` never throwing for expected failures). `local-file://` serves only via `resolveLocalFilePath()` (lexical containment, `403`/`404`, preview filenames only, drive-slash stripped).
+
+## Code conventions
+
+- Style: Prettier + ESLint convention (`no-unused-vars` off, `@typescript-eslint/no-unused-vars` warn with `_` ignored).
+- Strict TypeScript in both projects (`tsconfig.node` and `tsconfig.web`). No implicit `any`; prefer types from `src/types/` and preload interfaces.
+- Small functions, explicit names, predictable returns (`string | null`, `Promise<T>`, full scan `T[] | false`, `scanOne` `AnyMod | null`). Missing folder/file is empty, not an exception, except for launch. Watcher resyncs single-flight; `scanOne` never creates folders or metadata.
+- React: function components, hooks (module-level snapshot stores, revalidate on focus). Follow `react-hooks/rules-of-hooks` and `exhaustive-deps`. `only-export-components` with `allowConstantExport`.
+- Naming: `kebab-case.tsx` for components/screens, `camelCase.ts` for functions/hooks/lib. IPC `domain:action`. Store `section.key`.
+- **Inputs must render immediately**: present in DOM from first render, update values in place; never unmount/remount or swap trees on load. **No visual flickering**: stable layout during loading; validations only when state is confirmed. Applies project-wide.
