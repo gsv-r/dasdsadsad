@@ -20,7 +20,7 @@ afterEach(() => {
 })
 
 describe('TitleBar', () => {
-  it('renderiza os 5 botões com aria-labels fixos', () => {
+  it('renders the 5 buttons with fixed aria-labels', () => {
     renderWithProviders(<TitleBar />)
     expect(screen.getByLabelText('Back to Practice')).not.toBeNull()
     expect(screen.getByLabelText('Reload')).not.toBeNull()
@@ -137,7 +137,7 @@ describe('TitleBar', () => {
     return <p>path:{pathname}</p>
   }
 
-  it('semente inicial: exibe Maximizar quando a janela está restaurada', () => {
+  it('initial state: shows Maximize when the window is restored', () => {
     renderWithProviders(<TitleBar />)
     expect(screen.getByLabelText('Maximize')).not.toBeNull()
     expect(screen.queryByLabelText('Restore')).toBeNull()
@@ -152,7 +152,7 @@ describe('TitleBar', () => {
     await waitFor(() => expect(screen.getByLabelText('Restore')).not.toBeNull())
   })
 
-  it('reconcilia eventos window:state e desfaz a inscrição no unmount', async () => {
+  it('reconciles window:state events and unsubscribes on unmount', async () => {
     let stateCallback: ((message: { maximized: boolean }) => void) | undefined
     let removed = false
     const unsubscribe = () => {
@@ -181,7 +181,7 @@ describe('TitleBar', () => {
     expect(removed).toBe(true)
   })
 
-  it('mantém o New Version visível, sem sobrepor o logo', async () => {
+  it('keeps New Version visible without overlapping the logo', async () => {
     Object.assign(window, {
       updater: {
         getStatus: vi.fn((): Promise<{ status: string; version?: string }> =>

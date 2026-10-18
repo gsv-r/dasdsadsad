@@ -120,7 +120,7 @@ export default function TitleBar(): React.JSX.Element {
       data-slot="frame-titlebar"
       className="drag-region h-10 shrink-0 items-center border-b border-border bg-titlebar-bg grid grid-cols-[1fr_auto_1fr] z-[51]"
     >
-      {/* Esquerda: navegação (independente da largura dos demais grupos) */}
+      {/* Left: navigation (independent of the other groups' width) */}
       <div className="no-drag flex items-center gap-2 justify-self-start">
         <Button
           variant="ghost"
@@ -149,7 +149,7 @@ export default function TitleBar(): React.JSX.Element {
         </p>
       </div>
 
-      {/* Direita: atualização e controles da janela */}
+      {/* Right: update and window controls */}
       <div className="no-drag flex h-full items-center gap-1 justify-self-end">
         {showButton ? (
           <button

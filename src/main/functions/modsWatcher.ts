@@ -37,7 +37,7 @@ const MOD_TYPES: ModType[] = ['bikes', 'tracks', 'riders', 'helmets', 'ridingSty
 const EVENT_DEBOUNCE_MS = 300
 const PERSIST_DEBOUNCE_MS = 1500
 const WATCH_DEPTH = 2
-// Máximo de tentativas de scan para um mod que ainda não existe no disco.
+// Maximum scan attempts for a mod that does not exist on disk yet.
 // Intervalo crescente: 200, 400, 800, 1600, 3200 ms (~6,2 s no total).
 const MAX_SCAN_RETRIES = 5
 const RETRY_BASE_MS = 200
@@ -278,14 +278,14 @@ function applyScanResult(type: ModType, id: string, mod: AnyMod | null): void {
   if (!map || !modsValid) return
   const prev = map.get(id) ?? null
   if (mod === null) {
-    // O mod já está no cache e o scan retornou null: remoção real.
+    // The mod is already cached and the scan returned null: real removal.
     if (map.has(id)) {
       map.delete(id)
       schedulePersist()
       emitDiff({ type, upserted: [], removed: [id] })
       return
     }
-    // Mod ainda não existe no disco (ex.: pasta criada antes do metadata.json).
+    // Mod does not exist on disk yet (e.g. folder created before metadata.json).
     // Reagenda com retry limitado.
     scheduleScanRetry(type, id)
     return
@@ -336,7 +336,7 @@ function queueEvent(type: ModType, id: string): void {
   const key = keyFor(type, id)
   pendingKeys.add(key)
   // Um novo evento do mesmo mod cancela o retry pendente: o debounce de
-  // queueEvent dispara scanOne novamente, então não precisa de retry paralelo.
+  // queueEvent triggers scanOne again, so no parallel retry is needed.
   const retryTimer = retryTimers.get(key)
   if (retryTimer) {
     clearTimeout(retryTimer)
@@ -499,7 +499,7 @@ function reconcileInBackground(): void {
   reconcileNow().catch((error) => console.error('Failed to reconcile mods cache:', error))
 }
 
-// Lê os ids das pastas raiz de cada tipo e guarda para comparação futura.
+// Reads the root folder ids for each type and stores them for later comparison.
 function recordDiskIds(): void {
   const modsPath = resolveCurrentPath()
   if (!modsPath) return
@@ -512,15 +512,15 @@ function recordDiskIds(): void {
         if (entry.isDirectory()) ids.add(entry.name)
       }
     } catch {
-      // Pasta ausente ou ilegível: sem ids.
+      // Folder missing or unreadable: no ids.
     }
     diskIdsByType.set(type, ids)
   }
 }
 
-// Gate de focus: compara apenas a lista de ids no disco com o último
-// conjunto visto (inclui pastas sem metadata.json). Se igual, não faz
-// nada — sem scan, sem persist, sem emit. Se diferir, roda reconcileNow().
+// Focus gate: compares only the disk id list with the last
+// seen set (includes folders without metadata.json). If equal, skips
+// everything — no scan, no persist, no emit. If different, runs reconcileNow().
 export async function refreshByFocus(): Promise<void> {
   const modsPath = resolveCurrentPath()
   if (!modsPath || !sameModsPath(modsPath, activeModsPath)) return
@@ -535,7 +535,7 @@ export async function refreshByFocus(): Promise<void> {
         if (entry.isDirectory()) ids.add(entry.name)
       }
     } catch {
-      // Pasta ausente ou ilegível: sem ids.
+      // Folder missing or unreadable: no ids.
     }
     nextIds.set(type, ids)
     const prev = diskIdsByType.get(type)

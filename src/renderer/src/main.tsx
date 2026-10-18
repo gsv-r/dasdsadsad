@@ -12,9 +12,9 @@ import { consumeReloadFlag } from './lib/reload-flag'
 // Schema compilation is lazy, so disabling JIT here runs before any parse.
 z.config({ jitless: true })
 
-// Lê e limpa a flag de reload de forma SÍNCRONA antes do primeiro render,
-// sem flicker. Se o usuário clicou Reload na sessão anterior, o indicador
-// aparece brevemente no boot desta página.
+// Reads and clears the reload flag SYNCHRONOUSLY before the first render,
+// without flicker. If the user clicked Reload in the previous session, the
+// indicator briefly appears on this page's boot.
 const reloadPending = consumeReloadFlag()
 
 createRoot(document.getElementById('root')!).render(

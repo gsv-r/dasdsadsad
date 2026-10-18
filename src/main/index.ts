@@ -459,10 +459,10 @@ app.on('before-quit', () => {
   stopUpdaterChecks()
 })
 
-// A boot que viu caminho nulo deixa sem watcher: revalida no focus para
-// iniciar o watcher quando o caminho volta a ser válido (refreshModsWatcher).
-// Depois, o gate de ids do disco evita scan repetido quando nada mudou
-// (refreshByFocus). refreshByFocus é no-op se a lista de ids for igual.
+// A boot that saw a null path leaves no watcher: revalidate on focus to
+// start the watcher when the path becomes valid again (refreshModsWatcher).
+// Then the disk id gate avoids repeated scans when nothing changed
+// (refreshByFocus). refreshByFocus is a no-op when the id list is unchanged.
 app.on('browser-window-focus', async () => {
   void refreshModsWatcher()
   await refreshByFocus()

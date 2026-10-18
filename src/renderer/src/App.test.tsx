@@ -68,7 +68,7 @@ afterEach(() => {
 })
 
 describe('App reload indicator', () => {
-  it('boot sem flag não mostra o indicador', () => {
+  it('boot without flag does not show the indicator', () => {
     render(<App reloadPending={false} />)
     expect(screen.queryByRole('status')).toBeNull()
   })
@@ -106,14 +106,14 @@ describe('App reload indicator auto-dismiss', () => {
     vi.useRealTimers()
   })
 
-  it('remove o indicador após 1.5s', async () => {
+  it('removes the indicator after 1.5s', async () => {
     render(<App reloadPending={true} />)
     expect(screen.getByRole('status')).not.toBeNull()
     vi.advanceTimersByTime(1500)
     await vi.waitFor(() => expect(screen.queryByRole('status')).toBeNull())
   })
 
-  it('não mostra nada quando reloadPending é false mesmo com timers', () => {
+  it('shows nothing when reloadPending is false even with timers', () => {
     render(<App reloadPending={false} />)
     expect(screen.queryByRole('status')).toBeNull()
     vi.advanceTimersByTime(1500)

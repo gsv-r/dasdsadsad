@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-// Sincroniza o estado maximizado da janela com o renderer.
-// O primeiro frame renderiza com o ícone de "maximizar" (estado inicial da
-// janela ao abrir) e reconcilia em silêncio assim que o main responde;
-// nunca pisca o ícone entre estados. O listener do main é desfeito no
-// cleanup do componente.
+// Syncs the window maximized state with the renderer.
+// The first frame renders with the "maximize" icon (initial state when the
+// window opens) and reconciles silently once the main process responds;
+// it never flickers between states. The main listener is removed on
+// component cleanup.
 export function useWindowState(): { isMaximized: boolean } {
   const [isMaximized, setIsMaximized] = useState<boolean>(false)
 

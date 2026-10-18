@@ -24,18 +24,18 @@ describe('reload-flag', () => {
     expect(sessionStorage.getItem('kd:reload-pending')).toBeNull()
   })
 
-  it('consumeReloadFlag retorna false quando não há flag', () => {
+  it('consumeReloadFlag returns false when there is no flag', () => {
     expect(consumeReloadFlag()).toBe(false)
   })
 
-  it('setReloadFlag não quebra quando sessionStorage está indisponível', () => {
+  it('setReloadFlag does not throw when sessionStorage is unavailable', () => {
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
       throw new Error('Storage is unavailable')
     })
     expect(() => setReloadFlag()).not.toThrow()
   })
 
-  it('consumeReloadFlag não quebra quando sessionStorage está indisponível', () => {
+  it('consumeReloadFlag does not throw when sessionStorage is unavailable', () => {
     vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
       throw new Error('Storage is unavailable')
     })

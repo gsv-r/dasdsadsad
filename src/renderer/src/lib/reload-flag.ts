@@ -4,7 +4,7 @@ export function setReloadFlag(): void {
   try {
     sessionStorage.setItem(KEY, '1')
   } catch {
-    // Storage indisponível não quebra o fluxo.
+    // Unavailable storage must not break the flow.
   }
 }
 

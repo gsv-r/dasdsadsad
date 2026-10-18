@@ -11,9 +11,9 @@ import { formatAppVersion, useAppVersion } from '@renderer/hooks/useAppVersion'
 const ITEM_CLASSES =
   'flex w-full cursor-pointer flex-row items-center gap-2.5 rounded-none px-4 py-3.5 text-sm font-medium tracking-wider text-nav-text uppercase transition-colors outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50'
 
-// O acento ativo é --kd-lime (text-ring): o design system (§3) reserva o vermelho
-// para o CTA principal (Go Ride) e o destaque do logotipo; o verde-lima é o
-// acento seletivo para estados ativos, preservando a hierarquia de cor.
+// The active accent is --kd-lime (text-ring): the design system (section 3)
+// reserves red for the primary CTA (Go Ride) and the logo highlight; lime
+// green is the selective accent for active states, preserving color hierarchy.
 const ITEM_ACTIVE_CLASSES = 'text-ring'
 
 const SECTION_CLASSES =

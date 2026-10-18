@@ -8,6 +8,7 @@ export default defineConfig({
     }
   },
   test: {
+    setupFiles: ['src/test-setup.ts'],
     // electron-store must be processed by Vite (not externalized) so that
     // `vi.mock('electron')` applies to its `import electron from 'electron'`.
     // Otherwise it resolves the real Electron stub outside the mock registry

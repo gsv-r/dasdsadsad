@@ -22,7 +22,7 @@ describe('LoadingDots', () => {
     })
   })
 
-  it('está fora do fluxo (position absolute) e sem pointer events', () => {
+  it('is out of flow (position absolute) and has no pointer events', () => {
     render(<LoadingDots />)
     const container = screen.getByRole('status')
     expect(container.classList.contains('absolute')).toBe(true)
