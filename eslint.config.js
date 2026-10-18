@@ -10,6 +10,8 @@ export default tseslint.config(
       "out/**",
       "dist/**",
       "build/**",
+      ".agents/**",
+      "coverage/**",
     ],
   },
 
