@@ -1,0 +1,160 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+# O codigo-fonte fica no repo privado atual. A publicacao vai para o repo
+# publico separado de distribuicao (gsv-r/knee-down). Por isso o GITHUB_TOKEN
+# padrao NAO serve: ele so tem acesso ao repo privado. O publish usa um PAT
+# com contents:write no repo publico, guardado em UPDATE_REPO_TOKEN.
+# O app em producao le o repo publico de forma anonima, sem credenciais.
+permissions:
+  contents: read
+
+jobs:
+  release-win:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - run: bun install --frozen-lockfile
+
+      - name: Verify tag matches package.json version
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(bun -e 'console.log(require("./package.json").version)')"
+          echo "tag=$TAG package=$PKG"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::Tag v$TAG does not match package.json version $PKG. Update package.json and re-tag."
+            exit 1
+          fi
+
+      - name: Require publish token for public updates repo
+        shell: bash
+        run: |
+          if [ -z "${{ secrets.UPDATE_REPO_TOKEN }}" ]; then
+            echo "::error::Missing secrets.UPDATE_REPO_TOKEN (PAT with contents:write on gsv-r/knee-down)."
+            exit 1
+          fi
+
+      - run: bun run test
+
+      - run: bun run build
+        env:
+          GH_TOKEN: ${{ secrets.UPDATE_REPO_TOKEN }}
+
+      # Garante UMA release por tag no repo publico antes do publish.
+      # Sem isso, retries criam releases duplicadas com a mesma tag e o
+      # redirect /releases/download/<tag>/latest.yml quebra (404), o que
+      # impede tanto a primeira instalacao via link direto quanto o update.
+      # Se ja existe, o builder reutiliza e completa exe + latest.yml.
+      - name: Ensure single public release (idempotent)
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.UPDATE_REPO_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if gh release view "$TAG" --repo gsv-r/knee-down >/dev/null 2>&1; then
+            echo "release $TAG already exists in gsv-r/knee-down, reusing"
+          else
+            gh release create "$TAG" --repo gsv-r/knee-down --title "$TAG" --notes "Knee Down $TAG" --target main --latest
+          fi
+          IDS=$(gh api repos/gsv-r/knee-down/releases --paginate -q "[.[] | select(.tag_name == \"$TAG\") | .id] | join(\" \")")
+          echo "releases for $TAG: $IDS"
+          COUNT=$(echo "$IDS" | wc -w)
+          if [ "$COUNT" -gt 1 ]; then
+            KEEP=$(echo "$IDS" | tr ' ' '\n' | sort -nr | head -n1)
+            echo "keeping newest release id $KEEP, deleting duplicates"
+            for ID in $IDS; do
+              if [ "$ID" != "$KEEP" ]; then
+                echo "deleting duplicate release id $ID"
+                gh api -X DELETE "repos/gsv-r/knee-down/releases/$ID"
+              fi
+            done
+          fi
+
+      # electron-builder publica instalador versionado, .blockmap e latest.yml
+      # direto no GitHub Release do repo PUBLICO (ver publish em
+      # electron-builder.yml). Nenhum upload manual e nenhum codigo-fonte vai
+      # para o repo publico: o pacote inclui so out/, resources/ e package.json.
+      # O token fica so no CI e nunca e embutido no app (app-update.yml guarda
+      # apenas owner/repo publicos para leitura anonima).
+      - run: bunx electron-builder --win --publish always
+        env:
+          GH_TOKEN: ${{ secrets.UPDATE_REPO_TOKEN }}
+
+      # Destaca o instalador .exe nas notas da release: primeira instalacao
+      # usa o .exe; latest.yml/.blockmap sao so auxiliares do auto update.
+      - name: Highlight installer in release notes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.UPDATE_REPO_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VER="${TAG#v}"
+          EXE="KneeDown-${VER}-Setup.exe"
+          NOTES_FILE="$(mktemp)"
+          cat > "$NOTES_FILE" <<EOF
+          ## Download — primeira instalação (Windows x64)
+
+          Baixe e execute o instalador:
+
+          **[$EXE](https://github.com/gsv-r/knee-down/releases/download/$TAG/$EXE)**
+
+          > \`latest.yml\` e \`.blockmap\` são arquivos internos do auto update — não baixe nem execute esses arquivos.
+
+          ## Atualizações
+
+          Quem já tem o app instalado recebe as atualizações automaticamente (detecção → download → instalação → reinicialização).
+          EOF
+          gh release edit "$TAG" --repo gsv-r/knee-down --title "Knee Down $TAG" --notes-file "$NOTES_FILE"
+
+      # Mantem o README do repo publico com o link de download estavel
+      # (/releases/latest). Nunca bloqueia a release: e documentacao.
+      - name: Publish download links to public repo README
+        continue-on-error: true
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.UPDATE_REPO_TOKEN }}
+        run: |
+          README_FILE="$(mktemp)"
+          cat > "$README_FILE" <<'EOF'
+          # Knee Down — Download (Windows x64)
+
+          Launcher para GP Bikes.
+
+          ## Primeira instalação
+
+          1. Abra **https://github.com/gsv-r/knee-down/releases/latest**
+          2. Baixe o instalador **`KneeDown-<versão>-Setup.exe`**
+          3. Execute o instalador e siga as telas.
+
+          > `latest.yml` e `.blockmap` são arquivos internos do auto update — ignore esses arquivos.
+
+          ## Atualizações
+
+          O app detecta, baixa, instala e reinicia sozinho a partir das releases deste repositório.
+          EOF
+          ENC_CONTENT=$(base64 -w0 "$README_FILE")
+          CURRENT_SHA=$(gh api repos/gsv-r/knee-down/contents/README.md --jq .sha 2>/dev/null || true)
+          CURRENT_CONTENT=$(gh api repos/gsv-r/knee-down/contents/README.md --jq .content 2>/dev/null | tr -d '\n' || true)
+          if [ "$CURRENT_CONTENT" != "$ENC_CONTENT" ]; then
+            if [ -z "$CURRENT_SHA" ]; then
+              gh api -X PUT repos/gsv-r/knee-down/contents/README.md -f message="docs: download links (instalador .exe + auto update)" -f content="$ENC_CONTENT" -f branch="main" >/dev/null
+            else
+              gh api -X PUT repos/gsv-r/knee-down/contents/README.md -f message="docs: download links (instalador .exe + auto update)" -f content="$ENC_CONTENT" -f sha="$CURRENT_SHA" -f branch="main" >/dev/null
+            fi
+            echo "public README updated"
+          else
+            echo "public README already up to date"
+          fi
